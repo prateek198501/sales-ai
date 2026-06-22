@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRK Jewellery — Full Sales Intelligence Report</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0c0b14;color:#e0d8cc;min-height:100vh;font-size:13px;-webkit-text-size-adjust:100%}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:#1a1628}::-webkit-scrollbar-thumb{background:#4a3d70;border-radius:3px}
+
+.hero{background:linear-gradient(135deg,#1a0a00,#2a1000 40%,#150c28);padding:28px 36px 22px;border-bottom:2px solid #6b4c1e;width:100%;box-sizing:border-box}
+.hero h1{font-size:24px;font-weight:800;color:#f5c842;letter-spacing:.5px}
+.hero p{color:#c9a96e;font-size:12px;margin-top:5px}
+
+.kpi-bar{display:flex;gap:12px;padding:16px 36px;background:#110f1e;border-bottom:1px solid #221e38;flex-wrap:wrap;width:100%;box-sizing:border-box}
+.kpi{background:linear-gradient(135deg,#1a1530,#201840);border:1px solid #3a2a60;border-radius:8px;padding:12px 18px;flex:1;min-width:130px}
+.kpi .klabel{font-size:10px;color:#8877bb;text-transform:uppercase;letter-spacing:.8px}
+.kpi .kval{font-size:20px;font-weight:700;color:#f5c842;margin-top:3px}
+.kpi .ksub{font-size:10px;color:#665588;margin-top:1px}
+
+.tabs{display:flex;padding:0;background:#0c0b14;border-bottom:1px solid #221e38;overflow-x:auto;gap:0;width:100%;box-sizing:border-box}
+.tab{padding:12px 18px;font-size:12px;font-weight:600;color:#665588;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;-webkit-tap-highlight-color:transparent;user-select:none}
+.tab:hover{color:#c9a96e}.tab.active{color:#f5c842;border-bottom-color:#f5c842}
+
+.content{padding:24px 16px;overflow-x:hidden;max-width:100%;width:100%;box-sizing:border-box}
+.section{display:none;width:100%;max-width:100%;box-sizing:border-box}.section.active{display:block;width:100%;max-width:100%;box-sizing:border-box}
+h2{font-size:17px;color:#f5c842;margin-bottom:4px}
+h3{font-size:12px;color:#c9a96e;margin-bottom:14px;font-weight:400}
+h4{font-size:11px;color:#8877bb;text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px}
+
+.card{background:#15122a;border:1px solid #221e38;border-radius:10px;padding:18px;margin-bottom:18px;overflow:hidden;max-width:100%}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:11.5px;table-layout:auto}
+th{background:#1c1830;color:#8877bb;text-align:left;padding:8px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid #2a2440;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid #1a1628;vertical-align:middle}
+tr:hover td{background:#1c1830}
+.sticky-col{position:sticky;left:0;background:#15122a;z-index:2}
+tr:hover .sticky-col{background:#1c1830}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 7px;border-radius:12px;font-size:10px;font-weight:700;white-space:nowrap}
+.bpt{background:#3d2e00;color:#f5c842} /* platinum */
+.bgo{background:#2a2000;color:#d4a830} /* gold */
+.bsi{background:#1e1e30;color:#9daab8} /* silver */
+.bbr{background:#1a1414;color:#a08060} /* bronze */
+.bhr{background:#0a1a30;color:#60a0e0} /* hrk */
+.bsh{background:#0a200a;color:#60c060} /* shailendra */
+.bg{background:#0a2010;color:#4dba77}
+.br2{background:#200a0a;color:#e06060}
+.by{background:#2a1800;color:#e0a020}
+
+/* ALERTS */
+.alert{padding:12px 15px;border-radius:8px;margin-bottom:10px;display:flex;gap:10px}
+.alert-g{background:#1a2a00;border:1px solid #3a5a10}
+.alert-y{background:#2a1800;border:1px solid #6b4c1e}
+.alert-r{background:#200a0a;border:1px solid #501a1a}
+.alert-b{background:#0a1530;border:1px solid #1a3060}
+.ai{font-size:16px;flex-shrink:0;margin-top:1px}
+.at{font-size:12px;font-weight:700;color:#f5c842;margin-bottom:2px}
+.ab{font-size:11px;color:#c9a96e;line-height:1.5}
+
+/* BAR CHART */
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bl{font-size:11px;color:#c9a96e;width:180px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.bt{flex:1;background:#1c1830;border-radius:3px;height:18px;overflow:hidden;min-width:0}
+.bf{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#0c0b14;white-space:nowrap;overflow:hidden}
+.bv{font-size:10px;color:#8877bb;width:70px;text-align:right;flex-shrink:0}
+
+/* HEATMAP */
+.hmap{border-collapse:collapse;font-size:10px;width:100%}
+.hmap th{padding:5px 4px;text-align:center;color:#665588;font-size:9px;font-weight:600}
+.hmap td{padding:3px;text-align:center;border:1px solid #110f1e}
+.cn{text-align:left!important;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis;color:#c9a96e;padding-left:4px!important;font-size:10px}
+.h0{background:#110f1e;color:#1a1628}
+.h1{background:#0d2008;color:#3a7a28;font-weight:600}
+.h2{background:#1a3810;color:#5aaa40;font-weight:700}
+.h3{background:#2a5018;color:#8ad060;font-weight:700}
+.h4{background:#366018;color:#b0e870;font-weight:700}
+
+/* CLIENT CARDS */
+.client-card{background:#13112a;border:1px solid #221e38;border-radius:8px;padding:14px;margin-bottom:10px}
+.cc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap;gap:6px;width:100%}
+.cc-name{font-size:13px;font-weight:700;color:#e0d8cc;flex:1}
+.cc-rev{font-size:18px;font-weight:800;color:#f5c842}
+.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.cc-stat{background:#0c0b14;border-radius:5px;padding:8px 10px}
+.cc-stat-label{font-size:9px;color:#665588;text-transform:uppercase;letter-spacing:.5px}
+.cc-stat-val{font-size:13px;font-weight:700;color:#c9a96e;margin-top:2px}
+.cc-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.cc-pill{background:#1c1830;border:1px solid #2a2440;border-radius:12px;padding:3px 8px;font-size:10px;color:#c9a96e}
+.cc-pill span{color:#f5c842;font-weight:700}
+.cc-months{display:flex;gap:2px;flex-wrap:wrap;max-width:100%}
+.m-dot{width:24px;height:20px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;flex-shrink:0}
+.m-active{background:#2a5018;color:#8ad060}
+.m-inactive{background:#1a1628;color:#332a44}
+.touch-rec{background:#1a1200;border:1px solid #4a3800;border-radius:5px;padding:8px 10px;font-size:11px;color:#c9a96e;margin-top:8px}
+.touch-rec strong{color:#f5c842}
+
+/* SEARCH */
+.search-bar{display:flex;gap:10px;margin-bottom:16px;align-items:center;flex-wrap:wrap}
+.search-bar input,.search-bar select{background:#1c1830;border:1px solid #3a2a60;border-radius:6px;color:#e0d8cc;padding:8px 12px;font-size:12px;max-width:100%;box-sizing:border-box}
+.search-bar input{flex:1;min-width:0}
+
+/* REP HEADER */
+.rep-header{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:8px;margin-bottom:16px;flex-wrap:wrap}
+.rep-header.hrk{background:linear-gradient(135deg,#0a1530,#15203a);border:1px solid #1a3060}
+.rep-header.shai{background:linear-gradient(135deg,#0a2010,#152a15);border:1px solid #1a4020}
+.rep-name-big{font-size:22px;font-weight:800;color:#f5c842}
+.rep-total-big{font-size:16px;color:#c9a96e;margin-top:2px}
+.rep-stats{display:flex;gap:12px;margin-left:0;flex-wrap:wrap;width:100%}
+.rep-s{text-align:right}
+.rep-s .label{font-size:9px;color:#665588;text-transform:uppercase}
+.rep-s .val{font-size:14px;font-weight:700;color:#e0d8cc}
+
+/* MONTH SPARKLINE */
+.spark{display:flex;gap:2px;align-items:flex-end;height:30px}
+.spark-bar{flex:1;border-radius:2px 2px 0 0;min-height:2px}
+
+/* COLLECTION COLOR */
+.coll-CASCADE{color:#f5c842}.coll-EVERGREENS{color:#6b9ef5}.coll-MOONLIGHT{color:#c06bf5}
+.coll-SYMPHONY{color:#f5a06b}.coll-EVERGREENS2{color:#6bf5a0}.coll-SEA_GREEN{color:#6bf5f0}
+.coll-CASCADE2{color:#d4a830}.coll-VJ_MOONLIGHT{color:#a060e0}.coll-EVERGREENEX{color:#40d480}
+.coll-VJ_CASCADE{color:#e0c040}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:3px}
+
+/* MONTH BARS */
+.m-bars{display:flex;align-items:flex-end;gap:4px;height:80px}
+.mb-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px}
+.mb-bar{width:100%;border-radius:2px 2px 0 0;min-height:2px}
+.mb-lbl{font-size:8px;color:#665588}
+
+/* NO HORIZONTAL SCROLL GLOBALLY */
+html, body { overflow-x: hidden; max-width: 100%; }
+* { max-width: 100%; }
+img, video, iframe { max-width: 100%; }
+
+/* Tables: stack on mobile instead of scroll */
+.table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { min-width: 0 !important; width: 100%; }
+th, td { word-break: break-word; white-space: normal !important; }
+
+/* Heatmap: always scrollable within its own wrapper only */
+.hmap-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; }
+.hmap { min-width: 600px; } /* heatmap keeps min width inside its own scroll box */
+.hmap th, .hmap td { white-space: nowrap; }
+
+/* Remove min-width from all other tables */
+.card table { min-width: 0; }
+.card table th, .card table td { font-size: 11px; padding: 7px 8px; }
+
+/* Pitch table: compress columns */
+#pitch-table td, #pitch-table th { font-size: 10px; padding: 5px 6px; }
+
+/* Bar charts: constrain label width */
+.bl { width: 140px; }
+
+
+/* Client cards: no overflow */
+.client-card { overflow: hidden; word-wrap: break-word; }
+.cc-name { word-break: break-word; white-space: normal; }
+
+/* Touch guide: constrain */
+#touch-grid > div { overflow: hidden; word-wrap:break-word; word-break:break-word; }
+
+/* Rephdr */
+.rep-header { overflow: hidden; }
+
+
+/* Tables scroll inside their card, not the whole page */
+.card { overflow: hidden; }
+.card > table, .card > div > table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+/* But heatmap has its own wrapper */
+.hmap-wrap table { display: table; }
+/* Pitch table: prevent overflow, truncate if needed */
+#pitch-table td { max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+
+@media(min-width:769px){
+  
+}
+
+/* Mobile bottom navigation */
+.mob-nav{display:none}
+@media(max-width:768px){
+  .mob-nav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;
+    background:#110f1e;border-top:1px solid #2a2440;
+    z-index:100;padding:0;justify-content:space-around;
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .mob-nav-btn{
+    flex:1;padding:10px 4px 8px;text-align:center;cursor:pointer;
+    font-size:9px;color:#665588;border:none;background:transparent;
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+    -webkit-tap-highlight-color:transparent;transition:color .15s;
+  }
+  .mob-nav-btn.active{color:#f5c842}
+  .mob-nav-btn .mnicon{font-size:18px;line-height:1}
+  .mob-nav-btn .mnlabel{font-size:8px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+  /* Add bottom padding to content so bottom nav doesn't cover it */
+  .content{padding:24px 16px;overflow-x:hidden;max-width:100%;width:100%;box-sizing:border-box}
+  /* Hide top tabs on very small screens, use bottom nav instead */
+  
+}
+
+
+/* ================================================
+   DEFINITIVE RESPONSIVE FIX — ALL TABS FULL WIDTH
+   ================================================ */
+
+/* Base — all sections/content fill 100% */
+html, body { overflow-x: hidden; width: 100%; }
+.section, .section.active { width: 100%; max-width: 100%; box-sizing: border-box; }
+.content { box-sizing: border-box; width: 100%; max-width: 100%; }
+.card { box-sizing: border-box; width: 100%; }
+.grid2, .grid3 { box-sizing: border-box; width: 100%; }
+#touch-grid { box-sizing: border-box; width: 100%; }
+
+/* ---- TABLET (≤900px) ---- */
+
+
+/* ---- MOBILE (≤768px) ---- */
+
+/* ================================================
+   RESPONSIVE — single authoritative media block
+   ================================================ */
+@media screen and (max-width: 900px) {
+  .hero        { padding: 16px 16px 12px; }
+  .kpi-bar     { padding: 12px 16px; }
+  .tabs        { padding: 0; }
+  .content     { padding: 16px 16px; }
+  .grid2,.grid3 { grid-template-columns: 1fr; gap: 12px; }
+  #touch-grid  { grid-template-columns: 1fr 1fr; gap: 12px; }
+}
+
+@media screen and (max-width: 768px) {
+  html, body { overflow-x: hidden; }
+  .hero        { padding: 12px 12px 10px; }
+  .hero h1     { font-size: 15px; }
+  .hero p      { font-size: 10px; }
+
+  .kpi-bar {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px 12px;
+    gap: 8px;
+  }
+  .kpi         { min-width: 0; }
+  .kpi .kval   { font-size: 16px; }
+  .kpi .klabel { font-size: 9px; }
+  .kpi .ksub   { font-size: 9px; }
+
+  .tabs { padding: 0; }
+  .tab  { padding: 10px 12px; font-size: 11px; }
+
+  .content {
+    padding: 12px 12px 80px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .section, .section.active {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .grid2, .grid3 {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+    width: 100% !important;
+  }
+
+  #touch-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    width: 100% !important;
+  }
+  #touch-grid > div { box-sizing: border-box; width: 100%; word-break: break-word; }
+
+  .card {
+    padding: 12px 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .card table:not(.hmap) {
+    display: block !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    font-size: 10px;
+  }
+  .card th { font-size: 9px; padding: 6px 7px; white-space: nowrap; }
+  .card td { font-size: 10px; padding: 6px 7px; }
+
+  .hmap-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; display: block; }
+  .hmap { min-width: 640px; font-size: 9px; }
+  .hmap th { padding: 4px 3px; font-size: 8px; white-space: nowrap; }
+  .hmap td { padding: 3px 2px; font-size: 8px; }
+  .cn { max-width: 120px; font-size: 9px; }
+
+  .client-card { padding: 12px 10px; margin-bottom: 8px; box-sizing: border-box; }
+  .cc-header   { flex-direction: column; gap: 6px; }
+  .cc-rev      { font-size: 20px; }
+  .cc-grid     { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cc-stat     { padding: 7px 8px; }
+  .cc-stat-label { font-size: 8px; }
+  .cc-stat-val { font-size: 12px; }
+  .cc-pill     { font-size: 9px; padding: 2px 5px; }
+  .m-dot       { width: 20px; height: 18px; font-size: 7px; }
+  .touch-rec   { font-size: 10px; padding: 7px 8px; }
+  .cc-months   { flex-wrap: wrap; }
+
+  .rep-header     { flex-direction: column; gap: 8px; padding: 12px 10px; }
+  .rep-name-big   { font-size: 18px; }
+  .rep-total-big  { font-size: 12px; }
+  .rep-stats      { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+  .rep-s          { text-align: left; }
+  .rep-s .val     { font-size: 12px; }
+
+  .search-bar        { flex-direction: column; gap: 8px; }
+  .search-bar input  { width: 100%; }
+  .search-bar select { width: 100%; }
+
+  .alert { padding: 10px 10px; gap: 8px; }
+  .at    { font-size: 11px; }
+  .ab    { font-size: 10px; line-height: 1.4; }
+
+  .bl { width: 100px; font-size: 9px; flex-shrink: 0; }
+  .bf { font-size: 9px; }
+  .bv { width: 44px; font-size: 9px; }
+
+  .m-bars { height: 60px; }
+  .mb-lbl { font-size: 7px; }
+
+  h2     { font-size: 15px; }
+  h3     { font-size: 11px; margin-bottom: 10px; }
+  h4     { font-size: 10px; margin-bottom: 8px; }
+  .badge { font-size: 9px; padding: 2px 5px; }
+
+  .mob-nav {
+    display: flex;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #110f1e; border-top: 1px solid #2a2440;
+    z-index: 100; justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .mob-nav-btn {
+    flex: 1; padding: 10px 4px 8px; text-align: center; cursor: pointer;
+    font-size: 9px; color: #665588; border: none; background: transparent;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mob-nav-btn.active { color: #f5c842; }
+  .mob-nav-btn .mnicon { font-size: 18px; line-height: 1; }
+  .mob-nav-btn .mnlabel { font-size: 8px; font-weight: 600; text-transform: uppercase; }
+}
+
+@media screen and (max-width: 480px) {
+  .content  { padding: 10px 10px 80px !important; }
+  .hero     { padding: 10px 10px 8px !important; }
+  .kpi-bar  { padding: 8px 10px !important; }
+  .hero h1  { font-size: 13px; }
+  .kpi .kval { font-size: 14px; }
+  .bl { width: 82px; }
+  .bv { width: 38px; }
+  .m-dot { width: 17px; height: 15px; }
+  .tabs { display: flex; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>💎 HRK Jewellery — Sales Intelligence</h1>
+  <p>Apr 2024 – Mar 2026 · 92 Clients · 2 Reps · 4,078 Transactions · ₹114.4 Cr</p>
+</div>
+
+<div class="kpi-bar">
+  <div class="kpi"><div class="klabel">Total Revenue</div><div class="kval">₹114.4 Cr</div><div class="ksub">Apr 2024 – Mar 2026</div></div>
+  <div class="kpi"><div class="klabel">Transactions</div><div class="kval">4,078</div><div class="ksub">Across 92 clients</div></div>
+  <div class="kpi"><div class="klabel">HRK Revenue</div><div class="kval">₹64.9 Cr</div><div class="ksub">39 clients · 56.8%</div></div>
+  <div class="kpi"><div class="klabel">Shailendra Revenue</div><div class="kval">₹20.6 Cr</div><div class="ksub">53 clients · 18.0%</div></div>
+  <div class="kpi"><div class="klabel">Avg Order Value</div><div class="kval">₹2.80 L</div><div class="ksub">Per transaction</div></div>
+  <div class="kpi"><div class="klabel">Peak Month</div><div class="kval">Sep 2025</div><div class="ksub">₹12.57 Cr</div></div>
+  <div class="kpi"><div class="klabel">Top Collection</div><div class="kval">CASCADE</div><div class="ksub">41.7% share · ₹47.7 Cr</div></div>
+  <div class="kpi"><div class="klabel">Dormant Clients</div><div class="kval">43</div><div class="ksub">No buy since Sep 25</div></div>
+</div>
+
+<div class="tabs" id="main-tabs">
+  <div class="tab active" onclick="showTab('tab-hrk',this)" data-short="🔵 HRK">🔵 HRK Clients (39)</div>
+  <div class="tab" onclick="showTab('tab-shai',this)" data-short="🟢 Shai">🟢 Shailendra (53)</div>
+  <div class="tab" onclick="showTab('tab-touch',this)" data-short="📅 Touch">📅 Touch Plan</div>
+  <div class="tab" onclick="showTab('tab-heatmap',this)" data-short="🔥 Map">🔥 Heatmap</div>
+  <div class="tab" onclick="showTab('tab-collections',this)" data-short="💍 Coll">💍 Collections</div>
+  <div class="tab" onclick="showTab('tab-trends',this)" data-short="📈 Trend">📈 Trends</div>
+  <div class="tab" onclick="showTab('tab-dormant',this)" data-short="⚠️ Risk">⚠️ Dormant</div>
+</div><!-- end .tabs -->
+
+<!-- Mobile bottom navigation -->
+<nav class="mob-nav" id="mob-nav">
+  <button class="mob-nav-btn active" onclick="showTabMob('tab-hrk',this)">
+    <span class="mnicon">🔵</span><span class="mnlabel">HRK</span>
+  </button>
+  <button class="mob-nav-btn" onclick="showTabMob('tab-shai',this)">
+    <span class="mnicon">🟢</span><span class="mnlabel">Shai</span>
+  </button>
+  <button class="mob-nav-btn" onclick="showTabMob('tab-touch',this)">
+    <span class="mnicon">📅</span><span class="mnlabel">Touch</span>
+  </button>
+  <button class="mob-nav-btn" onclick="showTabMob('tab-heatmap',this)">
+    <span class="mnicon">🔥</span><span class="mnlabel">Map</span>
+  </button>
+  <button class="mob-nav-btn" onclick="showTabMob('tab-collections',this)">
+    <span class="mnicon">💍</span><span class="mnlabel">Colls</span>
+  </button>
+  <button class="mob-nav-btn" onclick="showTabMob('tab-trends',this)">
+    <span class="mnicon">📈</span><span class="mnlabel">Trends</span>
+  </button>
+  <button class="mob-nav-btn" onclick="showTabMob('tab-dormant',this)">
+    <span class="mnicon">⚠️</span><span class="mnlabel">Risk</span>
+  </button>
+</nav>
+
+
+<!-- ========== HRK TAB ========== -->
+<div id="tab-hrk" class="section active content">
+  <div class="rep-header hrk">
+    <div>
+      <div class="rep-name-big">🔵 HRK</div>
+      <div class="rep-total-big">₹64.86 Crore · 39 Clients · 2,222 Transactions</div>
+    </div>
+    <div class="rep-stats">
+      <div class="rep-s"><div class="label">Avg Order</div><div class="val">₹2.92 L</div></div>
+      <div class="rep-s"><div class="label">Top Client</div><div class="val">HAZOORILAL & SONS</div></div>
+      <div class="rep-s"><div class="label">Peak Month</div><div class="val">September</div></div>
+    </div>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="srch-hrk" placeholder="🔍 Search client name…" oninput="filterCards('hrk-cards',this.value)">
+    <select onchange="filterCards('hrk-cards','',this.value)">
+      <option value="">All Tiers</option>
+      <option value="Platinum">Platinum</option>
+      <option value="Gold">Gold</option>
+      <option value="Silver">Silver</option>
+      <option value="Bronze">Bronze</option>
+    </select>
+  </div>
+  <div id="hrk-cards"></div>
+</div>
+
+<!-- ========== SHAILENDRA TAB ========== -->
+<div id="tab-shai" class="section content">
+  <div class="rep-header shai">
+    <div>
+      <div class="rep-name-big">🟢 Shailendra</div>
+      <div class="rep-total-big">₹20.55 Crore · 53 Clients · 757 Transactions</div>
+    </div>
+    <div class="rep-stats">
+      <div class="rep-s"><div class="label">Avg Order</div><div class="val">₹2.72 L</div></div>
+      <div class="rep-s"><div class="label">Top Client</div><div class="val">Gems & Jewels Palace</div></div>
+      <div class="rep-s"><div class="label">Peak Month</div><div class="val">August/November</div></div>
+    </div>
+  </div>
+  <div class="search-bar">
+    <input type="text" id="srch-shai" placeholder="🔍 Search client name…" oninput="filterCards('shai-cards',this.value)">
+    <select onchange="filterCards('shai-cards','',this.value)">
+      <option value="">All Tiers</option>
+      <option value="Platinum">Platinum</option>
+      <option value="Gold">Gold</option>
+      <option value="Silver">Silver</option>
+      <option value="Bronze">Bronze</option>
+    </select>
+  </div>
+  <div id="shai-cards"></div>
+</div>
+
+<!-- ========== TOUCH PLAN TAB ========== -->
+<div id="tab-touch" class="section content">
+  <h2>Monthly Touch Plan — All Clients</h2>
+  <h3>Who to contact each month, why, and how frequently — based on 2 years of actual purchase data</h3>
+  <div class="alert alert-y">
+    <div class="ai">⚡</div>
+    <div><div class="at">Touch Frequency Rules</div>
+    <div class="ab"><strong>Platinum (&gt;₹5 Cr):</strong> Touch every 3 weeks minimum · <strong>Gold (₹1–5 Cr):</strong> Monthly touch · <strong>Silver (₹25L–1 Cr):</strong> Every 6 weeks · <strong>Bronze (&lt;₹25L):</strong> Quarterly. Always lead with the client's #1 preferred collection when reaching out.</div></div>
+  </div>
+  <div id="touch-grid" style="display:grid;gap:14px;margin-top:4px"></div>
+</div>
+
+<!-- ========== HEATMAP TAB ========== -->
+<div id="tab-heatmap" class="section content">
+  <h2>Client Buying Activity Heatmap</h2>
+  <h3>Which months each client is active — darker = higher spend in that month</h3>
+  <div class="card" style="overflow-x:auto">
+    <h4>🔥 All Active Clients — Monthly Purchase Activity</h4>
+    <div class="hmap-wrap"><table class="hmap" id="hmap-tbl">
+      <thead><tr><th style="text-align:left;min-width:160px">Client</th><th>Rep</th><th>Jan</th><th>Feb</th><th>Mar</th><th>Apr</th><th>May</th><th>Jun</th><th>Jul</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th><th>Revenue</th><th>Dia Ratio</th></tr></thead>
+      <tbody id="hmap-body"></tbody>
+    </table>
+    </div></div><div style="display:flex;gap:12px;margin-top:10px;font-size:10px;color:#665588;flex-wrap:wrap">
+      <span>Spend intensity →</span>
+      <span style="background:#1a1628;padding:2px 6px;border-radius:3px;color:#332a44">No purchase</span>
+      <span style="background:#0d2008;padding:2px 6px;border-radius:3px;color:#3a7a28">Low (&lt;₹50L)</span>
+      <span style="background:#1a3810;padding:2px 6px;border-radius:3px;color:#5aaa40">Medium</span>
+      <span style="background:#2a5018;padding:2px 6px;border-radius:3px;color:#8ad060">High (&gt;₹1Cr)</span>
+      <span style="background:#366018;padding:2px 6px;border-radius:3px;color:#b0e870">Peak (&gt;₹5Cr)</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== COLLECTIONS TAB ========== -->
+<div id="tab-collections" class="section content">
+  <h2>Collections, Items & Product Intelligence</h2>
+  <h3>What's selling, to whom, and what to pitch next</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>💰 Collection Revenue Share</h4>
+      <div id="coll-bars"></div>
+    </div>
+    <div class="card">
+      <h4>📦 Top Item Types by Revenue</h4>
+      <div id="item-bars"></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h4>🔘 Item Group Breakdown</h4>
+      <div id="group-bars"></div>
+    </div>
+    <div class="card">
+      <h4>🎨 Metal Color Preference (Overall)</h4>
+      <div id="color-bars"></div>
+      <div style="margin-top:14px" class="alert alert-b">
+        <div class="ai">💡</div>
+        <div><div class="at">WG Dominates at 93.6%</div>
+        <div class="ab">White Gold is overwhelmingly preferred. Only D.P.ABHUSHAN (8.1% RG) and Gems & Jewels Palace (7.6% YG) show meaningful alternate metal preference. Always lead with WG pieces unless you know the client specifically wants YG/RG.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h4>🎯 Client-wise Collection Preference Guide — Top 20 Clients</h4>
+    <table>
+      <thead><tr><th>Client</th><th>Rep</th><th>#1 Collection</th><th>#2</th><th>Top Item</th><th>Dia Ratio</th><th>Avg Order</th></tr></thead>
+      <tbody id="pitch-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== TRENDS TAB ========== -->
+<div id="tab-trends" class="section content">
+  <h2>Revenue Trends & Seasonality</h2>
+  <h3>Month-by-month flow, year-on-year growth, and what's driving peaks</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>📅 2024 Monthly Revenue (Apr–Dec)</h4>
+      <div class="m-bars" id="bars2024"></div>
+      <div style="display:flex;gap:4px;margin-top:3px" id="lbl2024"></div>
+    </div>
+    <div class="card">
+      <h4>📅 2025 Monthly Revenue (Jan–Dec)</h4>
+      <div class="m-bars" id="bars2025"></div>
+      <div style="display:flex;gap:4px;margin-top:3px" id="lbl2025"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h4>📊 Year-on-Year Monthly Comparison</h4>
+    <table>
+      <thead><tr><th>Month</th><th>2024 Revenue</th><th>2025 Revenue</th><th>2026 Revenue</th><th>YoY 24→25</th><th>Season</th><th>Key Drivers</th></tr></thead>
+      <tbody id="yoy-table"></tbody>
+    </table>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h4>🚀 Fastest Growing Clients (2024 → 2025)</h4>
+      <table>
+        <thead><tr><th>Client</th><th>Rep</th><th>2024</th><th>2025</th><th>Growth</th></tr></thead>
+        <tbody id="growth-table"></tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h4>📉 Clients Declining / Lost (Action Needed)</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Client</th><th>2024 Revenue</th><th>Status</th><th>Last Buy</th></tr></thead>
+        <tbody id="decline-table"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ========== DORMANT TAB ========== -->
+<div id="tab-dormant" class="section content">
+  <h2>⚠️ Dormant & At-Risk Clients</h2>
+  <h3>Clients who haven't purchased recently — ranked by revenue lost potential</h3>
+  <div class="alert alert-r">
+    <div class="ai">🚨</div>
+    <div><div class="at">43 clients have not purchased since Sep 2025 or earlier</div>
+    <div class="ab">Some may be seasonal. But many represent real churn risk. Prioritise re-engagement by past revenue — a client who spent ₹14 Cr and hasn't bought in 18 months is a crisis. Schedule urgent visits or calls for all clients marked 🔴.</div></div>
+  </div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Client</th><th>Rep</th><th>2024</th><th>2025</th><th>2026</th><th>Last Buy</th><th>Silent</th><th>Status</th><th>Lead With</th></tr></thead>
+      <tbody id="dormant-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const MN = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const COLL_COLORS = {CASCADE:'#f5c842',EVERGREENS:'#6b9ef5',MOONLIGHT:'#c06bf5',SYMPHONY:'#f5a06b','EVERGREENS2':'#6bf5a0','SEA GREEN':'#6bf5f0',CASCADE2:'#d4a830','VJ MOONLIGHT':'#a060e0',EVERGREENEX:'#40d480','VJ CASCADE':'#e0c040'};
+
+// ===== ALL CLIENT DATA =====
+const CLIENTS = {
+  "HAZOORILAL & SONS JEWELLERS PVT. LTD.":{rep:"HRK",rev:102727900,orders:297,avg:345885,dia_ratio:2.81,cs_ratio:9.21,net_wt:4164.7,months:[1,3,5,6,7,8,9,10,12],month_rev:{1:14328097,3:5910407,5:5786433,6:1517368,7:7911267,8:3482235,9:52587648,10:11000286,12:204119},colls:[["CASCADE",48.1],["EVERGREENS",25.3],["MOONLIGHT",20.9]],items:[["Ring",27.3],["Earring",25.6],["*Necklace",11.1]],groups:[["COCKTAIL",6.7],["EVERY DAY",6.1],["STUDS",5.7]],colors:[["WG",94.9]],last_buy:"2026-03-07",y24:30751592,y25:40533359,growth:31.8},
+  "HAZOORILAL JEWELLERS PVT. LTD.":{rep:"HRK",rev:83725790,orders:211,avg:396805,dia_ratio:2.95,cs_ratio:4.79,net_wt:2612.3,months:[1,3,4,8,9,10,12],month_rev:{1:1985827,3:9224560,4:19817872,8:4809157,9:19680658,10:3316867,12:24890850},colls:[["CASCADE",67.3],["MOONLIGHT",25.1],["EVERGREENS",6.6]],items:[["Earring",35.5],["Ring",35.5],["Bangle",14.2]],groups:[["BAND",12.8],["CHANDBALI",11.8],["SINGLE LINE",9.5]],colors:[["WG",97.2],["YG",1.4]],last_buy:"2026-03-21",y24:0,y25:70740404,growth:null},
+  "SHRI KRISHNA JEWELLERS PVT. LTD. ( B-HILL )":{rep:"HRK",rev:79649810,orders:174,avg:457758,dia_ratio:2.94,cs_ratio:7.81,net_wt:2185.8,months:[1,4,6,7,8,9,10,12],month_rev:{1:24772439,4:2117999,6:1817366,7:3204230,8:20900800,9:1538046,10:1012996,12:16358817},colls:[["CASCADE",64.9],["EVERGREENS",17.2],["MOONLIGHT",14.9]],items:[["Earring",31.0],["Ring",21.8],["Bangle",11.5]],groups:[["SINGLE LINE",12.6],["STUDS",4.6],["EVERY DAY",4.0]],colors:[["WG",98.9]],last_buy:"2025-10-29",y24:24285640,y25:55364170,growth:128.0},
+  "CH Jewellers Pvt Ltd.":{rep:"HRK",rev:62070950,orders:152,avg:408362,dia_ratio:3.11,cs_ratio:7.48,net_wt:1505.9,months:[1,2,3,7,8,9,10,11,12],month_rev:{1:3021461,2:12047425,3:14887000,7:4341772,8:23406447,9:3458992,10:175597,11:261086,12:420360},colls:[["CASCADE",44.1],["EVERGREENS",27.6],["MOONLIGHT",21.7]],items:[["Ring",36.8],["Earring",27.0],["Necklace2",9.9]],groups:[["BAND",13.2],["EVERY DAY",11.8],["COCKTAIL",9.2]],colors:[["WG",96.7],["YG",2.0]],last_buy:"2026-03-24",y24:13193888,y25:48876207,growth:270.8},
+  "RATHOD JEWELLERS":{rep:"HRK",rev:58062390,orders:258,avg:225048,dia_ratio:2.62,cs_ratio:4.22,net_wt:2049.2,months:[1,2,3,4,5,6,7,8,9,10,11,12],month_rev:{1:9089756,2:1048580,3:1785774,4:2677706,5:1237695,6:3066551,7:2716219,8:5021649,9:23274219,10:6186310,11:949430,12:1008501},colls:[["CASCADE",37.2],["MOONLIGHT",30.2],["EVERGREENS",29.5]],items:[["Ring",41.9],["Necklace2",18.6],["Earring",15.1]],groups:[["COCKTAIL",9.7],["EVERY DAY",7.8],["BAND",7.4]],colors:[["WG",95.0],["YG",4.3]],last_buy:"2026-02-03",y24:15593780,y25:37001815,growth:137.3},
+  "D.P.ABHUSHAN LTD (RATLAM)":{rep:"HRK",rev:54860840,orders:334,avg:164254,dia_ratio:2.65,cs_ratio:2.90,net_wt:1998.6,months:[1,2,3,4,9,10,11,12],month_rev:{1:3000956,2:2086793,3:11281167,4:3069665,9:11523968,10:19636886,11:2432617,12:1828787},colls:[["MOONLIGHT",40.4],["CASCADE",36.5],["EVERGREENS",12.9]],items:[["Ring",59.6],["Earring",19.5],["Necklace2",9.9]],groups:[["BAND",26.9],["EVERY DAY",12.9],["COCKTAIL",7.8]],colors:[["WG",87.4],["RG",8.1]],last_buy:"2026-03-26",y24:81063,y25:38895101,growth:47925.0},
+  "Harsahaimal Shaimal Jewellers Pvt Ltd":{rep:"HRK",rev:21388240,orders:49,avg:436495,dia_ratio:1.83,cs_ratio:8.22,net_wt:699.8,months:[1,2,3,6,8,9,10,11,12],month_rev:{1:2028985,2:1041219,3:1017726,6:831685,8:5029064,9:4635890,10:3085994,11:2299779,12:1418898},colls:[["CASCADE",38.8],["EVERGREENS",36.7],["MOONLIGHT",12.2]],items:[["*Necklace",20.4],["N Earring",20.4],["Earring",16.3]],groups:[["SINGLE LINE",12.2],["STUDS",8.2],["MULTI LINERS",6.1]],colors:[["WG",87.8],["YG",12.2]],last_buy:"2026-02-12",y24:3149839,y25:15700578,growth:398.5},
+  "P N GADGIL JEWELLERS LIMITED":{rep:"HRK",rev:21195960,orders:82,avg:258487,dia_ratio:2.78,cs_ratio:4.32,net_wt:720.1,months:[3,5,11],month_rev:{3:20415256,5:334329,11:446375},colls:[["CASCADE",46.3],["MOONLIGHT",41.5],["EVERGREENS",12.2]],items:[["Ring",35.4],["Earring",31.7],["N Earring",7.3]],groups:[["COCKTAIL",1.2],["STUDS",1.2]],colors:[["WG",97.6]],last_buy:"2025-11-10",y24:0,y25:21195960,growth:null},
+  "NEELKANTH GOLD AND DIAMONDS PVT LTD":{rep:"HRK",rev:19166790,orders:39,avg:491456,dia_ratio:2.37,cs_ratio:9.61,net_wt:554.0,months:[2,3,9,10],month_rev:{2:1972779,3:2107940,9:11540776,10:3545295},colls:[["CASCADE",69.2],["EVERGREENS",25.6],["EVERGREENS2",2.6]],items:[["Ring",33.3],["Earring",25.6],["*Necklace",15.4]],groups:[["STUDS",20.5],["BAND",17.9],["SINGLE LINE",12.8]],colors:[["WG",92.3],["YG",7.7]],last_buy:"2026-03-04",y24:0,y25:19166790,growth:null},
+  "ANMOL  JEWELLERS":{rep:"HRK",rev:17592660,orders:95,avg:185186,dia_ratio:3.04,cs_ratio:5.03,net_wt:819.9,months:[1,2,3,4,5,6,8,9,12],month_rev:{1:9496188,2:1325675,3:1042095,4:2156933,5:507344,6:977203,8:381177,9:1251099,12:454944},colls:[["CASCADE",52.6],["MOONLIGHT",34.7],["EVERGREENS",7.4]],items:[["Earring",36.8],["Ring",35.8],["N Earring",5.3]],groups:[["EVERY DAY",13.7],["BAND",12.6],["COCKTAIL",9.5]],colors:[["WG",95.8],["YG",2.1]],last_buy:"2026-03-13",y24:5021858,y25:12570802,growth:150.4},
+  "Harsahaimal Shiamlal Jewellers Lucknow Pvt. Ltd.":{rep:"HRK",rev:17355310,orders:90,avg:192837,dia_ratio:2.10,cs_ratio:4.60,net_wt:729.9,months:[1,4,5,6,7,8,9,10],month_rev:{1:1622735,4:1087050,5:895082,6:1113430,7:1295765,8:8807697,9:2183557,10:349994},colls:[["CASCADE",61.1],["MOONLIGHT",16.7],["EVERGREENS",14.4]],items:[["Earring",30.0],["Ring",30.0],["N Earring",12.2]],groups:[["EVERY DAY",13.3],["BALI - HOOPS",11.1],["STUDS",8.9]],colors:[["WG",90.0],["YG",8.9]],last_buy:"2026-01-22",y24:3489395,y25:13033118,growth:273.5},
+  "AKM Mehra Sons Jewellers NDSE":{rep:"HRK",rev:14151120,orders:52,avg:272137,dia_ratio:2.04,cs_ratio:6.20,net_wt:595.5,months:[4,5,6,7,9],month_rev:{4:5453897,5:6505465,6:410351,7:929246,9:852157},colls:[["CASCADE",59.6],["EVERGREENS",34.6],["EVERGREENS2",3.8]],items:[["Ring",34.6],["Earring",21.2],["*Necklace",19.2]],groups:[["STUDS",17.3],["SINGLE LINE",13.5],["BALI - HOOPS",9.6]],colors:[["WG",96.2],["YG",1.9]],last_buy:"2024-09-06",y24:14151120,y25:0,growth:-100.0},
+  "AB Jewels":{rep:"HRK",rev:13357340,orders:45,avg:296830,dia_ratio:2.02,cs_ratio:5.41,net_wt:442.6,months:[1],month_rev:{1:13357344},colls:[["CASCADE",80.0],["EVERGREENS",17.8],["MOONLIGHT",2.2]],items:[["Ring",42.2],["Earring",17.8],["Half Bangle",13.3]],groups:[["BAND",24.4],["OPEN RING",11.1],["SINGLE LINE",8.9]],colors:[["WG",97.8]],last_buy:"2026-01-24",y24:0,y25:0,growth:null},
+  "P.C. CHANDRA & SONS (INDIA) PRIVATE LIMITED(NEW)":{rep:"HRK",rev:12159150,orders:59,avg:206087,dia_ratio:2.19,cs_ratio:4.34,net_wt:432.5,months:[3,10,12],month_rev:{3:6003459,10:5037285,12:1118411},colls:[["CASCADE",54.2],["EVERGREENS",30.5],["MOONLIGHT",8.5]],items:[["Ring",49.2],["Earring",22.0],["*Necklace",13.6]],groups:[["BAND",23.7],["STUDS",13.6],["EVERY DAY",13.6]],colors:[["WG",96.6]],last_buy:"2026-03-23",y24:5853494,y25:6305661,growth:7.7},
+  "Ranka Jewellers And Sons Private Limited":{rep:"HRK",rev:10528940,orders:23,avg:457780,dia_ratio:3.28,cs_ratio:4.15,net_wt:303.5,months:[1,10],month_rev:{1:6834706,10:3694238},colls:[["CASCADE",43.5],["MOONLIGHT",34.8],["EVERGREENS",17.4]],items:[["Earring",56.5],["Half Bangle",17.4],["Ring",13.0]],groups:[["CHANDBALI",21.7],["BALI - HOOPS",17.4],["SINGLE LINE",13.0]],colors:[["WG",100.0]],last_buy:"2026-01-06",y24:0,y25:10528940,growth:null},
+  "P.C.CHANDRA (JEWELLERS) PVT. LTD.(GH NEW)":{rep:"HRK",rev:8586552,orders:25,avg:343462,dia_ratio:2.38,cs_ratio:4.27,net_wt:342.1,months:[1,10],month_rev:{1:5600552,10:2986000},colls:[["CASCADE",48.0],["EVERGREENS",28.0],["MOONLIGHT",20.0]],items:[["Earring",32.0],["N Earring",20.0],["Ring",16.0]],groups:[["SINGLE LINE",16.0],["CHANDBALI",12.0]],colors:[["WG",100.0]],last_buy:"2025-01-20",y24:8586552,y25:0,growth:-100.0},
+  "Birdhi Chand Ghanshyam Das Jewellers":{rep:"HRK",rev:6986209,orders:31,avg:225362,dia_ratio:3.71,cs_ratio:0.42,net_wt:236.2,months:[4,9,10,11],month_rev:{4:1044700,9:4024905,10:668519,11:1248085},colls:[["MOONLIGHT",90.3],["EVERGREENS",9.7]],items:[["Ring",32.3],["Earring",29.0],["Necklace2",9.7]],groups:[["COCKTAIL",22.6],["MULTI LINERS",16.1],["BALI - HOOPS",12.9]],colors:[["WG",96.8],["YG",3.2]],last_buy:"2025-09-26",y24:1937520,y25:5048689,growth:160.6},
+  "Shri Ram Hari Ram Jewellers":{rep:"HRK",rev:6298058,orders:18,avg:349892,dia_ratio:2.59,cs_ratio:7.74,net_wt:205.3,months:[2,4,11],month_rev:{2:1052174,4:3432609,11:1813275},colls:[["CASCADE",55.6],["EVERGREENS",22.2],["MOONLIGHT",16.7]],items:[["Ring",55.6],["Earring",22.2],["Half Bangle",11.1]],groups:[["OPEN RING",22.2],["SINGLE LINE",11.1],["BAND",11.1]],colors:[["WG",94.4],["YG",5.6]],last_buy:"2025-11-11",y24:0,y25:6298058,growth:null},
+  "RIKHAB DAS UDAY CHAND":{rep:"HRK",rev:5189514,orders:29,avg:178949,dia_ratio:2.01,cs_ratio:8.38,net_wt:174.6,months:[5,8,10,11],month_rev:{5:2067988,8:1168396,10:1010413,11:942717},colls:[["EVERGREENS",41.4],["CASCADE",41.4],["MOONLIGHT",13.8]],items:[["Ring",44.8],["Earring",34.5],["Necklace2",13.8]],groups:[["BAND",24.1],["SINGLE LINE",13.8],["MULTI LINERS",10.3]],colors:[["WG",96.6]],last_buy:"2025-11-11",y24:1168396,y25:4021118,growth:244.2},
+  "Moti Gold And Diamonds LLP":{rep:"HRK",rev:4681089,orders:22,avg:212777,dia_ratio:2.28,cs_ratio:4.95,net_wt:171.0,months:[3,8,9],month_rev:{3:1031716,8:2141219,9:1508154},colls:[["CASCADE",63.6],["EVERGREENS",13.6],["MOONLIGHT",13.6]],items:[["Earring",27.3],["Ring",27.3],["N Earring",18.2]],groups:[["SINGLE LINE",18.2],["STUDS",13.6],["BALI - HOOPS",9.1]],colors:[["WG",90.9],["YG",9.1]],last_buy:"2026-03-28",y24:0,y25:3172935,growth:null},
+  "AARTI JEWELLERS PVT LTD":{rep:"HRK",rev:3947205,orders:12,avg:328934,dia_ratio:2.71,cs_ratio:7.30,net_wt:122.0,months:[2,9],month_rev:{2:3656427,9:290777},colls:[["CASCADE",41.7],["EVERGREENS",41.7],["MOONLIGHT",8.3]],items:[["Ring",58.3],["Earring",33.3]],groups:[["BAND",25.0],["OPEN RING",16.7],["STUDS",8.3]],colors:[["WG",100.0]],last_buy:"2025-09-22",y24:0,y25:3947205,growth:null},
+  "MADAN LAL CHHAGAN LAL":{rep:"HRK",rev:3513778,orders:4,avg:878444,dia_ratio:1.44,cs_ratio:18.21,net_wt:64.6,months:[3,12],month_rev:{3:1981695,12:1532083},colls:[["EVERGREENS",50.0],["VJ CASCADE",50.0]],items:[["*Necklace",25.0],["N Earring",25.0],["Bracelet",25.0]],groups:[["SINGLE LINE",50.0],["MULTI LINERS",25.0]],colors:[["WG",100.0]],last_buy:"2025-12-24",y24:0,y25:3513778,growth:null},
+  "Moti Sons Jewellers Ltd":{rep:"HRK",rev:3491090,orders:5,avg:698218,dia_ratio:1.94,cs_ratio:11.25,net_wt:96.0,months:[10,11],month_rev:{10:2418046,11:1073044},colls:[["CASCADE",60.0],["EVERGREENS",40.0]],items:[["N Earring",40.0],["*Necklace2",20.0],["*Necklace",20.0]],groups:[["SINGLE LINE",40.0],["MULTI LINERS",20.0]],colors:[["WG",100.0]],last_buy:"2024-11-09",y24:3491090,y25:0,growth:-100.0},
+  "JAIPUR GEMS-MUMBAI":{rep:"HRK",rev:2338313,orders:6,avg:389719,dia_ratio:1.36,cs_ratio:5.44,net_wt:107.9,months:[8,9],month_rev:{8:895036,9:1443277},colls:[["CASCADE",50.0],["EVERGREENS",50.0]],items:[["Ring",16.7],["Half Bangle",16.7],["Earring",16.7]],groups:[["BAND",33.3],["SINGLE LINE",16.7]],colors:[["WG",83.3],["YG",16.7]],last_buy:"2024-09-30",y24:2338313,y25:0,growth:-100.0},
+  "NEELKANTH JEWELLERS PVT. LTD.":{rep:"HRK",rev:2226647,orders:13,avg:171281,dia_ratio:1.51,cs_ratio:4.23,net_wt:86.4,months:[1,2,3],month_rev:{1:1189025,2:536434,3:501188},colls:[["CASCADE",92.3],["MOONLIGHT",7.7]],items:[["Ring",92.3],["Earring",7.7]],groups:[["OPEN RING",30.8],["BAND",23.1],["COCKTAIL",15.4]],colors:[["WG",100.0]],last_buy:"2026-03-06",y24:0,y25:1689213,growth:null},
+  "GANDHI JEWELLERS":{rep:"HRK",rev:2184349,orders:9,avg:242705,dia_ratio:3.85,cs_ratio:4.58,net_wt:49.4,months:[9,10,12],month_rev:{9:1266041,10:627936,12:290372},colls:[["EVERGREENS",55.6],["MOONLIGHT",22.2],["CASCADE",22.2]],items:[["Ring",55.6],["Bracelet",22.2],["Earring",11.1]],groups:[["CIRCLE OF LIFE",22.2],["COCKTAIL",22.2],["MULTI LINERS",11.1]],colors:[["WG",88.9],["YG",11.1]],last_buy:"2025-12-09",y24:0,y25:2184349,growth:null},
+  "PYARELAL JAGGANNATH SARAF-DELHI":{rep:"HRK",rev:1880831,orders:15,avg:125389,dia_ratio:3.05,cs_ratio:5.19,net_wt:60.1,months:[8],month_rev:{8:1880831},colls:[["CASCADE",73.3],["EVERGREENS",20.0],["MOONLIGHT",6.7]],items:[["Ring",86.7],["Earring",13.3]],groups:[["BAND",40.0],["OPEN RING",26.7],["STUDS",13.3]],colors:[["WG",100.0]],last_buy:"2024-08-21",y24:1880831,y25:0,growth:-100.0},
+  "Panna Diamond World LLP":{rep:"HRK",rev:1810199,orders:15,avg:120680,dia_ratio:2.92,cs_ratio:1.74,net_wt:73.8,months:[3,11],month_rev:{3:1101200,11:708999},colls:[["MOONLIGHT",66.7],["CASCADE",26.7],["EVERGREENS",6.7]],items:[["Ring",46.7],["Earring",20.0],["Necklace2",13.3]],groups:[["MULTI LINERS",20.0],["COCKTAIL",20.0],["OPEN RING",13.3]],colors:[["WG",100.0]],last_buy:"2025-11-12",y24:1101200,y25:708999,growth:-35.6},
+  "PYARE LAL JAGGANNATH SARAF":{rep:"HRK",rev:1721299,orders:12,avg:143442,dia_ratio:2.16,cs_ratio:2.34,net_wt:65.0,months:[9],month_rev:{9:1721299},colls:[["CASCADE",66.7],["MOONLIGHT",25.0],["EVERGREENS",8.3]],items:[["Ring",66.7],["Earring",25.0],["*Necklace",8.3]],groups:[["BAND",41.7],["EVERY DAY",16.7]],colors:[["WG",100.0]],last_buy:"2025-09-01",y24:0,y25:1721299,growth:null},
+  "Birdhi Chand Ghanshyam Das":{rep:"HRK",rev:1216396,orders:6,avg:202733,dia_ratio:3.06,cs_ratio:2.34,net_wt:39.5,months:[1,4],month_rev:{1:983307,4:233089},colls:[["MOONLIGHT",83.3],["EVERGREENS",16.7]],items:[["Earring",33.3],["Necklace2",33.3],["Ring",16.7]],groups:[["MULTI LINERS",33.3],["COCKTAIL",16.7]],colors:[["WG",100.0]],last_buy:"2026-01-24",y24:233089,y25:983307,growth:322.1},
+  "STARFIRE GEMS PVT. LTD.(MUMBAI)":{rep:"HRK",rev:1090230,orders:3,avg:363410,dia_ratio:1.07,cs_ratio:5.42,net_wt:58.9,months:[12],month_rev:{12:1090230},colls:[["CASCADE",100.0]],items:[["Ring",33.3],["*Necklace",33.3],["Bracelet",33.3]],groups:[["OPEN RING",33.3],["SINGLE LINE",33.3]],colors:[["WG",100.0]],last_buy:"2024-12-25",y24:1090230,y25:0,growth:-100.0},
+  "J.P.KOTHARI":{rep:"HRK",rev:839469,orders:6,avg:139911,dia_ratio:2.96,cs_ratio:2.33,net_wt:35.6,months:[9],month_rev:{9:839469},colls:[["CASCADE",66.7],["MOONLIGHT",33.3]],items:[["Earring",33.3],["Ring",33.3],["*Necklace",16.7]],groups:[["CHANDBALI",16.7],["BALI - HOOPS",16.7]],colors:[["WG",100.0]],last_buy:"2024-09-16",y24:839469,y25:0,growth:-100.0},
+  "NS JEWELLS":{rep:"HRK",rev:624265,orders:3,avg:208088,dia_ratio:2.64,cs_ratio:2.83,net_wt:22.4,months:[7],month_rev:{7:624265},colls:[["CASCADE",66.7],["MOONLIGHT",33.3]],items:[["Ring",66.7],["Necklace2",33.3]],groups:[["BAND",33.3],["OPEN RING",33.3]],colors:[["WG",100.0]],last_buy:"2025-07-12",y24:0,y25:624265,growth:null},
+  "Bholasons  Jewellers ( Gold Souk )":{rep:"HRK",rev:588349,orders:2,avg:294174,dia_ratio:2.26,cs_ratio:4.09,net_wt:21.5,months:[3],month_rev:{3:588349},colls:[["CASCADE",100.0]],items:[["Half Bangle",50.0],["Ring",50.0]],groups:[["BAND",100.0]],colors:[["WG",100.0]],last_buy:"2026-03-21",y24:0,y25:0,growth:null},
+  "SRI KRISHNA DIAMONDS AND JEWELLERY":{rep:"HRK",rev:489032,orders:1,avg:489032,dia_ratio:1.87,cs_ratio:1.36,net_wt:20.4,months:[11],month_rev:{11:489032},colls:[["CASCADE",100.0]],items:[["Half Bangle",100.0]],groups:[],colors:[["WG",100.0]],last_buy:"2025-11-24",y24:0,y25:489032,growth:null},
+  "Panna Gems & Jewellery Pvt. Ltd.":{rep:"HRK",rev:433591,orders:21,avg:20647,dia_ratio:2.40,cs_ratio:9.74,net_wt:256.7,months:[5],month_rev:{5:433591},colls:[["EVERGREENS2",57.1],["CASCADE2",42.9]],items:[["Ring",47.6],["Earring",14.3]],groups:[["BAND",28.6],["OPEN RING",9.5]],colors:[["WG",100.0]],last_buy:"2024-05-28",y24:433591,y25:0,growth:-100.0},
+  "Javanmal Prakashchand Kothari":{rep:"HRK",rev:318607,orders:2,avg:159303,dia_ratio:1.10,cs_ratio:7.21,net_wt:26.8,months:[10],month_rev:{10:318607},colls:[["CASCADE",100.0]],items:[["N Earring",50.0],["*Necklace",50.0]],groups:[["SINGLE LINE",50.0],["MULTI LINERS",50.0]],colors:[["WG",100.0]],last_buy:"2024-10-25",y24:318607,y25:0,growth:-100.0},
+  "J.D. SOLITAIRE":{rep:"HRK",rev:96260,orders:1,avg:96260,dia_ratio:2.53,cs_ratio:0.0,net_wt:5.6,months:[10],month_rev:{10:96260},colls:[["EVERGREENS",100.0]],items:[["Ring",100.0]],groups:[],colors:[["WG",100.0]],last_buy:"2024-10-23",y24:96260,y25:0,growth:-100.0},
+  "RATLAM ABHUSHAN PRIVATE LIMITED":{rep:"HRK",rev:41595,orders:1,avg:41595,dia_ratio:4.82,cs_ratio:0.0,net_wt:1.2,months:[4],month_rev:{4:41595},colls:[["MOONLIGHT",100.0]],items:[["Pendant",100.0]],groups:[],colors:[["WG",100.0]],last_buy:"2025-04-09",y24:0,y25:41595,growth:null},
+  // SHAILENDRA CLIENTS
+  "Gems And Jewels Palace":{rep:"Shailendra",rev:63842280,orders:66,avg:967307,dia_ratio:2.99,cs_ratio:15.12,net_wt:1409.9,months:[1,3,4,5,8,11,12],month_rev:{1:10121015,3:3749000,4:2100050,5:811001,8:18867913,11:21283021,12:6352001},colls:[["EVERGREENS",36.4],["CASCADE",33.3],["MOONLIGHT",12.1]],items:[["Ring",19.7],["Earring",18.2],["*Necklace",16.7]],groups:[["COCKTAIL",18.2],["SINGLE LINE",9.1],["MULTI LINERS",7.6]],colors:[["WG",83.3],["YG",7.6]],last_buy:"2026-03-05",y24:9531960,y25:40439010,growth:324.2},
+  "GEM ARTS EMPORIUM":{rep:"Shailendra",rev:11558770,orders:49,avg:235893,dia_ratio:1.70,cs_ratio:6.60,net_wt:430.0,months:[8,9],month_rev:{8:9285540,9:2273230},colls:[["CASCADE",55.1],["MOONLIGHT",24.5],["EVERGREENS",14.3]],items:[["Ring",44.9],["Earring",20.4],["*Necklace",12.2]],groups:[["SINGLE LINE",24.5],["EVERY DAY",16.3],["COCKTAIL",12.2]],colors:[["WG",95.9],["YG",4.1]],last_buy:"2025-09-11",y24:9285540,y25:2273230,growth:-75.5},
+  "PANNA  HANDICRAFTS":{rep:"Shailendra",rev:10414210,orders:25,avg:416568,dia_ratio:2.56,cs_ratio:6.48,net_wt:307.1,months:[4,7,9,12],month_rev:{4:3048219,7:2428225,9:2918773,12:2019000},colls:[["CASCADE",60.0],["EVERGREENS",36.0],["MOONLIGHT",4.0]],items:[["Ring",32.0],["Earring",28.0],["*Necklace",24.0]],groups:[["SINGLE LINE",20.0],["COCKTAIL",16.0],["BAND",12.0]],colors:[["WG",100.0]],last_buy:"2025-12-04",y24:5967000,y25:4447210,growth:-25.5},
+  "FRONTIER JEWELLERS":{rep:"Shailendra",rev:9489812,orders:45,avg:210885,dia_ratio:1.76,cs_ratio:7.71,net_wt:368.9,months:[1,2,4,6,7,9],month_rev:{1:4330504,2:1045774,4:1115450,6:617604,7:1118090,9:1262390},colls:[["CASCADE",57.8],["EVERGREENS",22.2],["MOONLIGHT",17.8]],items:[["Ring",46.7],["Earring",35.6],["*Necklace",11.1]],groups:[["OPEN RING",22.2],["BAND",15.6],["EVERY DAY",13.3]],colors:[["WG",95.6],["YG",4.4]],last_buy:"2026-01-23",y24:2379434,y25:7110378,growth:198.8},
+  "Alankar JewelArts Pvt. Ltd.":{rep:"Shailendra",rev:8071843,orders:42,avg:192187,dia_ratio:1.64,cs_ratio:4.91,net_wt:340.7,months:[1,2,9,12],month_rev:{1:1720205,2:332372,9:2023740,12:3995526},colls:[["CASCADE",95.2],["SYMPHONY",4.8]],items:[["Ring",40.5],["Earring",33.3],["Bracelet",9.5]],groups:[["OPEN RING",23.8],["EVERY DAY",21.4],["BAND",14.3]],colors:[["WG",92.9],["YG",4.8]],last_buy:"2026-02-06",y24:1720205,y25:6351638,growth:269.2},
+  "SOLITAIRE DIAMOND BOUTIQUE":{rep:"Shailendra",rev:6225802,orders:38,avg:163837,dia_ratio:1.77,cs_ratio:7.21,net_wt:247.3,months:[1,2,4,6,7,8,9,11],month_rev:{1:836750,2:557059,4:517609,6:478500,7:648000,8:1902529,9:648000,11:637355},colls:[["CASCADE",63.2],["EVERGREENS",26.3],["MOONLIGHT",7.9]],items:[["Ring",73.7],["Earring",15.8],["Necklace2",7.9]],groups:[["OPEN RING",26.3],["BAND",23.7],["EVERY DAY",15.8]],colors:[["WG",89.5],["YG",7.9]],last_buy:"2026-02-26",y24:2481600,y25:3744202,growth:50.9},
+  "VINSARA JEWELS":{rep:"Shailendra",rev:5379147,orders:16,avg:336197,dia_ratio:2.79,cs_ratio:5.81,net_wt:184.0,months:[2,3,4,11],month_rev:{2:1018285,3:1065523,4:1076010,11:2219329},colls:[["CASCADE",56.2],["MOONLIGHT",37.5],["EVERGREENS",6.2]],items:[["Earring",62.5],["Ring",37.5]],groups:[["CHANDBALI",25.0],["BALI - HOOPS",25.0],["STUDS",12.5]],colors:[["WG",87.5],["YG",12.5]],last_buy:"2026-02-05",y24:0,y25:5379147,growth:null},
+  "Tarun Jethi A Luxury Jeweller":{rep:"Shailendra",rev:5272095,orders:23,avg:229222,dia_ratio:3.19,cs_ratio:4.75,net_wt:148.5,months:[2,3,4,8],month_rev:{2:1008826,3:1014220,4:1245009,8:2004040},colls:[["CASCADE",34.8],["EVERGREENS",30.4],["MOONLIGHT",21.7]],items:[["Ring",43.5],["Earring",39.1],["*Necklace",13.0]],groups:[["BAND",21.7],["OPEN RING",17.4],["COCKTAIL",13.0]],colors:[["WG",91.3],["YG",8.7]],last_buy:"2026-03-28",y24:0,y25:5272095,growth:null},
+  "MEERA JEWEL HOUSE":{rep:"Shailendra",rev:5245109,orders:18,avg:291395,dia_ratio:2.32,cs_ratio:4.71,net_wt:188.1,months:[1,2,8,10],month_rev:{1:981260,2:1098949,8:2151590,10:1013310},colls:[["MOONLIGHT",44.4],["CASCADE",44.4],["EVERGREENS2",11.1]],items:[["Ring",33.3],["Necklace2",22.2],["Earring",22.2]],groups:[["MULTI LINERS",22.2],["COCKTAIL",22.2],["BAND",11.1]],colors:[["WG",88.9],["YG",11.1]],last_buy:"2026-02-02",y24:0,y25:5245109,growth:null},
+  "Vijay Jewellers PATIALA":{rep:"Shailendra",rev:4682899,orders:24,avg:195121,dia_ratio:2.02,cs_ratio:4.85,net_wt:179.6,months:[1,2,5,9],month_rev:{1:1416260,2:1084379,5:711720,9:1470540},colls:[["CASCADE",62.5],["EVERGREENS",16.7],["MOONLIGHT",12.5]],items:[["Ring",54.2],["Earring",20.8],["Necklace2",8.3]],groups:[["OPEN RING",25.0],["BAND",20.8],["EVERY DAY",12.5]],colors:[["WG",91.7],["YG",8.3]],last_buy:"2026-02-14",y24:0,y25:4682899,growth:null},
+  "TALWARSONS JEWELLERS":{rep:"Shailendra",rev:4448332,orders:20,avg:222417,dia_ratio:2.67,cs_ratio:5.95,net_wt:184.0,months:[7,9,10,11],month_rev:{7:592340,9:1572500,10:1024700,11:1258792},colls:[["CASCADE",85.0],["MOONLIGHT",10.0],["EVERGREENS",5.0]],items:[["Ring",55.0],["Earring",20.0],["*Necklace",10.0]],groups:[["OPEN RING",20.0],["BAND",15.0],["SINGLE LINE",15.0]],colors:[["WG",95.0],["YG",5.0]],last_buy:"2025-11-20",y24:0,y25:4448332,growth:null},
+  "LAHORE JEWELLERS":{rep:"Shailendra",rev:4308586,orders:18,avg:239366,dia_ratio:2.65,cs_ratio:6.37,net_wt:121.8,months:[1,2,4,5,6,10,11,12],month_rev:{1:544498,2:525677,4:414397,5:526000,6:553000,10:672560,11:524000,12:548454},colls:[["CASCADE",66.7],["EVERGREENS",27.8],["MOONLIGHT",5.6]],items:[["Ring",61.1],["Earring",22.2],["Necklace2",11.1]],groups:[["OPEN RING",22.2],["BAND",16.7],["EVERY DAY",11.1]],colors:[["WG",94.4],["YG",5.6]],last_buy:"2026-02-09",y24:2517920,y25:1039148,growth:-58.7},
+  "AJB FINE JEWELS":{rep:"Shailendra",rev:4113558,orders:26,avg:158214,dia_ratio:1.80,cs_ratio:9.25,net_wt:168.0,months:[3,4,5],month_rev:{3:2517404,4:1109031,5:487123},colls:[["CASCADE",88.5],["EVERGREENS",11.5]],items:[["Earring",38.5],["Ring",23.1],["*Necklace",19.2]],groups:[["BALI - HOOPS",23.1],["STUDS",11.5],["COCKTAIL",11.5]],colors:[["WG",96.2]],last_buy:"2025-03-24",y24:1596154,y25:2517404,growth:57.7},
+  "Jaisalmer Arts & Crafts":{rep:"Shailendra",rev:3773422,orders:12,avg:314452,dia_ratio:4.66,cs_ratio:3.33,net_wt:75.8,months:[1,2],month_rev:{1:2559312,2:1214110},colls:[["MOONLIGHT",75.0],["CASCADE",16.7],["EVERGREENS",8.3]],items:[["Ring",50.0],["Earring",33.3],["Necklace2",8.3]],groups:[["COCKTAIL",33.3],["MULTI LINERS",16.7],["BALI - HOOPS",16.7]],colors:[["WG",91.7]],last_buy:"2026-02-16",y24:0,y25:0,growth:null},
+  "K.D. GEMS":{rep:"Shailendra",rev:3582380,orders:8,avg:447797,dia_ratio:2.60,cs_ratio:2.30,net_wt:131.1,months:[8,9],month_rev:{8:1779880,9:1802500},colls:[["MOONLIGHT",50.0],["EVERGREENS",25.0],["CASCADE",25.0]],items:[["Ring",50.0],["Earring",37.5],["*Necklace",12.5]],groups:[["COCKTAIL",37.5],["MULTI LINERS",25.0]],colors:[["WG",100.0]],last_buy:"2024-09-26",y24:3582380,y25:0,growth:-100.0},
+  "R B GEMS & JEWELS ,GF XVI/2105":{rep:"Shailendra",rev:3385679,orders:19,avg:178194,dia_ratio:2.80,cs_ratio:6.09,net_wt:194.7,months:[8],month_rev:{8:3385679},colls:[["EVERGREENS",36.8],["CASCADE",26.3],["MOONLIGHT",21.1]],items:[["Earring",47.4],["Ring",47.4]],groups:[["BALI - HOOPS",26.3],["STUDS",21.1],["BAND",15.8]],colors:[["WG",100.0]],last_buy:"2025-08-05",y24:0,y25:3385679,growth:null},
+  "TEJASWI JEWELLERS JAWAHARLAL MOTILAL SARAF":{rep:"Shailendra",rev:3373517,orders:28,avg:120483,dia_ratio:1.67,cs_ratio:4.16,net_wt:152.2,months:[1,3,4],month_rev:{1:1161830,3:1161225,4:1050462},colls:[["CASCADE",71.4],["MOONLIGHT",21.4],["EVERGREENS2",7.1]],items:[["Ring",46.4],["Necklace2",42.9],["Earring",10.7]],groups:[["BAND",39.3],["OPEN RING",25.0],["COCKTAIL",10.7]],colors:[["WG",100.0]],last_buy:"2025-04-25",y24:0,y25:3373517,growth:null},
+  "AMAR NATH ACHAL KUMAR":{rep:"Shailendra",rev:3302491,orders:17,avg:194264,dia_ratio:2.19,cs_ratio:5.62,net_wt:118.9,months:[1,9],month_rev:{1:2698501,9:603990},colls:[["CASCADE",52.9],["EVERGREENS",23.5],["MOONLIGHT",17.6]],items:[["Ring",47.1],["Earring",23.5],["*Necklace",11.8]],groups:[["OPEN RING",17.6],["COCKTAIL",17.6],["BAND",11.8]],colors:[["WG",100.0]],last_buy:"2026-01-21",y24:603990,y25:2698501,growth:346.9},
+  "BATUKBHAI JEWELLERS":{rep:"Shailendra",rev:3255947,orders:19,avg:171366,dia_ratio:2.63,cs_ratio:4.37,net_wt:107.3,months:[4,5,9],month_rev:{4:1473300,5:1451174,9:331473},colls:[["CASCADE",47.4],["MOONLIGHT",31.6],["EVERGREENS",21.1]],items:[["Ring",47.4],["Necklace2",26.3],["Earring",15.8]],groups:[["BAND",21.1],["COCKTAIL",15.8],["OPEN RING",10.5]],colors:[["WG",94.7],["YG",5.3]],last_buy:"2025-09-25",y24:1473300,y25:1782648,growth:21.0},
+  "Kashi Jewellers":{rep:"Shailendra",rev:3120701,orders:18,avg:173372,dia_ratio:1.67,cs_ratio:6.50,net_wt:147.1,months:[1,8],month_rev:{1:1562341,8:1558360},colls:[["CASCADE",94.4],["EVERGREENS",5.6]],items:[["Ring",44.4],["Earring",27.8],["Necklace2",11.1]],groups:[["OPEN RING",16.7],["EVERY DAY",16.7],["BAND",16.7]],colors:[["WG",100.0]],last_buy:"2025-01-17",y24:1558360,y25:1562341,growth:0.3},
+  "OPS JEWELS PRIVATE LIMITED":{rep:"Shailendra",rev:2746840,orders:14,avg:196203,dia_ratio:3.39,cs_ratio:2.78,net_wt:72.0,months:[1,9,10],month_rev:{1:916398,9:1054001,10:776441},colls:[["MOONLIGHT",50.0],["CASCADE",28.6],["EVERGREENS",14.3]],items:[["Ring",57.1],["BROOCH",14.3],["Earring",14.3]],groups:[["COCKTAIL",28.6],["MULTI LINERS",14.3],["OPEN RING",14.3]],colors:[["WG",100.0]],last_buy:"2026-01-16",y24:0,y25:2746840,growth:null},
+  "INAARA JEWELS":{rep:"Shailendra",rev:2600001,orders:13,avg:200000,dia_ratio:2.56,cs_ratio:8.20,net_wt:109.7,months:[6],month_rev:{6:2600001},colls:[["CASCADE",69.2],["SYMPHONY",15.4],["MOONLIGHT",7.7]],items:[["Ring",53.8],["Earring",30.8],["*Necklace",7.7]],groups:[["OPEN RING",15.4],["BALI - HOOPS",15.4],["BAND",15.4]],colors:[["WG",92.3]],last_buy:"2025-06-13",y24:0,y25:2600001,growth:null},
+  "MALIK JEWELLERS":{rep:"Shailendra",rev:2522488,orders:18,avg:140138,dia_ratio:1.26,cs_ratio:6.70,net_wt:129.6,months:[8,10],month_rev:{8:1735859,10:786629},colls:[["CASCADE",94.4],["CASCADE2",5.6]],items:[["Ring",44.4],["Earring",27.8],["Half Bangle",16.7]],groups:[["OPEN RING",27.8],["BAND",22.2],["EVERY DAY",11.1]],colors:[["WG",100.0]],last_buy:"2025-10-08",y24:1735859,y25:786629,growth:-54.7},
+  "RADHEY LAL AND SONS JEWELLERS":{rep:"Shailendra",rev:2416901,orders:18,avg:134272,dia_ratio:2.44,cs_ratio:6.78,net_wt:116.4,months:[3,10],month_rev:{3:1009785,10:1407116},colls:[["CASCADE2",38.9],["CASCADE",33.3],["MOONLIGHT",27.8]],items:[["Earring",33.3],["Ring",27.8],["Necklace2",22.2]],groups:[["CHANDBALI",22.2],["BALI - HOOPS",11.1],["SINGLE LINE",11.1]],colors:[["WG",83.3],["YG",16.7]],last_buy:"2025-03-29",y24:0,y25:2416901,growth:null},
+  "GEHNA GEMS & JEWELS PRIVATE LIMITED":{rep:"Shailendra",rev:2397875,orders:16,avg:149867,dia_ratio:2.27,cs_ratio:4.46,net_wt:115.8,months:[1,5,10,12],month_rev:{1:588110,5:479215,10:884480,12:446070},colls:[["CASCADE",68.8],["MOONLIGHT",12.5],["EVERGREENS",12.5]],items:[["Ring",68.8],["Earring",18.8],["Necklace2",6.2]],groups:[["OPEN RING",37.5],["BAND",12.5],["EVERY DAY",6.2]],colors:[["WG",93.8]],last_buy:"2026-01-24",y24:0,y25:2397875,growth:null},
+  "CHETMANI ORNAMENTS AND JEWELLERS PVT. LTD.":{rep:"Shailendra",rev:2345649,orders:29,avg:80884,dia_ratio:2.26,cs_ratio:9.87,net_wt:127.0,months:[2,5,8,9,10],month_rev:{2:579044,5:267988,8:1031597,9:214285,10:252735},colls:[["CASCADE2",48.3],["VJ CASCADE",31.0],["MOONLIGHT",10.3]],items:[["*Pendant",34.5],["P Earring",31.0],["BROOCH",24.1]],groups:[["TANMANIYA",34.5],["COUTURE",27.6],["FUN",20.7]],colors:[["WG",93.1]],last_buy:"2025-10-04",y24:1031597,y25:1314052,growth:27.4},
+  "LALA JUGAL KISHORE JEWELLERS PRIVATE LIMITED":{rep:"Shailendra",rev:2287881,orders:3,avg:762627,dia_ratio:2.42,cs_ratio:13.29,net_wt:59.2,months:[10],month_rev:{10:2287881},colls:[["EVERGREENS",66.7],["EVERGREENEX",33.3]],items:[["Earring",33.3],["BROOCH",33.3],["N Earring",33.3]],groups:[["SINGLE LINE",33.3],["MULTI LINERS",33.3]],colors:[["WG",100.0]],last_buy:"2024-10-09",y24:2287881,y25:0,growth:-100.0},
+  "GDK JEWELS PVT LTD":{rep:"Shailendra",rev:2122441,orders:4,avg:530610,dia_ratio:3.06,cs_ratio:2.05,net_wt:74.8,months:[9,12],month_rev:{9:1202400,12:920041},colls:[["MOONLIGHT",50.0],["CASCADE",25.0],["EVERGREENS",25.0]],items:[["Half Bangle",50.0],["Earring",25.0],["Ring",25.0]],groups:[["BAND",50.0],["MULTI LINERS",25.0]],colors:[["WG",75.0],["RG+WG",25.0]],last_buy:"2025-12-08",y24:0,y25:2122441,growth:null},
+  "Dutta Heritage Private Limited":{rep:"Shailendra",rev:2112258,orders:16,avg:132016,dia_ratio:3.26,cs_ratio:1.31,net_wt:91.8,months:[9,11],month_rev:{9:1004350,11:1107908},colls:[["MOONLIGHT",68.8],["CASCADE",25.0],["EVERGREENS",6.2]],items:[["Ring",81.2],["Earring",12.5]],groups:[["MULTI LINERS",18.8],["COCKTAIL",18.8],["OPEN RING",12.5]],colors:[["WG",100.0]],last_buy:"2025-09-06",y24:0,y25:2112258,growth:null},
+  "KAMAL JEWELLERS":{rep:"Shailendra",rev:1953171,orders:11,avg:177561,dia_ratio:2.83,cs_ratio:8.69,net_wt:58.1,months:[1,4,10],month_rev:{1:509471,4:1108561,10:335139},colls:[["EVERGREENS",72.7],["CASCADE",27.3]],items:[["Ring",100.0]],groups:[["OPEN RING",45.5],["CIRCLE OF LIFE",18.2],["COCKTAIL",9.1]],colors:[["WG",100.0]],last_buy:"2025-01-17",y24:0,y25:1953171,growth:null},
+  "AARUSH GEMS PVT LTD":{rep:"Shailendra",rev:1873509,orders:15,avg:124901,dia_ratio:2.02,cs_ratio:2.16,net_wt:78.6,months:[2,7],month_rev:{2:1434978,7:438532},colls:[["EVERGREENS",53.3],["CASCADE",46.7]],items:[["Ring",60.0],["Earring",20.0],["Necklace2",13.3]],groups:[["OPEN RING",20.0],["BAND",20.0],["STUDS",13.3]],colors:[["WG",93.3]],last_buy:"2025-02-25",y24:438531,y25:1434978,growth:227.2},
+  "SANT RAM MANGAT RAM JAIN JEWELLERS":{rep:"Shailendra",rev:1745201,orders:4,avg:436300,dia_ratio:3.46,cs_ratio:7.27,net_wt:36.0,months:[1],month_rev:{1:1745201},colls:[["CASCADE",75.0],["EVERGREENS",25.0]],items:[["Earring",75.0],["Bracelet",25.0]],groups:[["BALI - HOOPS",25.0],["SINGLE LINE",25.0],["CHANDBALI",25.0]],colors:[["WG",100.0]],last_buy:"2026-01-19",y24:0,y25:0,growth:null},
+  "Jugal Kishore The Jewellers":{rep:"Shailendra",rev:1595480,orders:4,avg:398870,dia_ratio:4.92,cs_ratio:2.29,net_wt:37.1,months:[5,12],month_rev:{5:497610,12:1097870},colls:[["MOONLIGHT",75.0],["CASCADE",25.0]],items:[["Ring",75.0],["Earring",25.0]],groups:[["COCKTAIL",50.0],["MULTI LINERS",25.0],["OPEN RING",25.0]],colors:[["WG",100.0]],last_buy:"2025-12-24",y24:0,y25:1595480,growth:null},
+  "MANAAL":{rep:"Shailendra",rev:1455928,orders:7,avg:207990,dia_ratio:2.88,cs_ratio:4.04,net_wt:44.0,months:[6],month_rev:{6:1455928},colls:[["EVERGREENS",57.1],["MOONLIGHT",28.6],["CASCADE",14.3]],items:[["Ring",57.1],["Necklace2",28.6],["Earring",14.3]],groups:[["OPEN RING",28.6],["MULTI LINERS",28.6],["COCKTAIL",14.3]],colors:[["WG",85.7],["YG",14.3]],last_buy:"2025-06-09",y24:0,y25:1455928,growth:null},
+  "TALWAR JEWELLERY HOUSE":{rep:"Shailendra",rev:1415441,orders:7,avg:202206,dia_ratio:3.10,cs_ratio:5.94,net_wt:47.1,months:[5,6],month_rev:{5:918541,6:496900},colls:[["EVERGREENS",57.1],["CASCADE",42.9]],items:[["Ring",71.4],["Earring",14.3],["*Necklace",14.3]],groups:[["OPEN RING",42.9],["BAND",14.3],["SINGLE LINE",14.3]],colors:[["WG",100.0]],last_buy:"2024-06-08",y24:1415441,y25:0,growth:-100.0},
+  "Birdhi Chand Ghanshyam Das Jewellers_Shai":{rep:"Shailendra",rev:0,orders:0,avg:0,dia_ratio:0,cs_ratio:0,net_wt:0,months:[],month_rev:{},colls:[],items:[],groups:[],colors:[],last_buy:"",y24:0,y25:0,growth:null},
+  "DAAS JEWELLERS":{rep:"Shailendra",rev:1194884,orders:6,avg:199147,dia_ratio:2.01,cs_ratio:4.19,net_wt:46.7,months:[10,12],month_rev:{10:563516,12:631368},colls:[["CASCADE",66.7],["EVERGREENS",16.7],["MOONLIGHT",16.7]],items:[["Ring",83.3],["Bracelet",16.7]],groups:[["OPEN RING",50.0],["CIRCLE OF LIFE",16.7]],colors:[["WG",100.0]],last_buy:"2025-12-18",y24:0,y25:1194884,growth:null},
+  "VERMA JEWELLERS":{rep:"Shailendra",rev:978297,orders:3,avg:326099,dia_ratio:4.77,cs_ratio:2.37,net_wt:17.1,months:[1,8],month_rev:{1:651556,8:326741},colls:[["MOONLIGHT",66.7],["EVERGREENS",33.3]],items:[["Necklace2",33.3],["Ring",33.3],["*Necklace",33.3]],groups:[["MULTI LINERS",33.3],["SINGLE LINE",33.3],["BAND",33.3]],colors:[["WG",100.0]],last_buy:"2025-08-18",y24:0,y25:978297,growth:null},
+  "HARI PRASAD GOPI KRISHNA SARAF PVT LTD":{rep:"Shailendra",rev:600116,orders:2,avg:300058,dia_ratio:2.16,cs_ratio:5.78,net_wt:21.6,months:[11],month_rev:{11:600116},colls:[["CASCADE",100.0]],items:[["Earring",100.0]],groups:[["BALI - HOOPS",100.0]],colors:[["WG",100.0]],last_buy:"2025-11-01",y24:0,y25:600116,growth:null},
+  "K D DIAMOND":{rep:"Shailendra",rev:539379,orders:7,avg:77054,dia_ratio:1.19,cs_ratio:5.18,net_wt:41.4,months:[7],month_rev:{7:539379},colls:[["EVERGREENS",57.1],["MOONLIGHT",28.6],["CASCADE",14.3]],items:[["Ring",71.4],["Earring",14.3],["*Necklace",14.3]],groups:[["OPEN RING",28.6],["BAND",14.3],["STUDS",14.3]],colors:[["WG",100.0]],last_buy:"2024-07-31",y24:539379,y25:0,growth:-100.0},
+  "L. KASHI NATH SETH JEWELLERS":{rep:"Shailendra",rev:435075,orders:1,avg:435075,dia_ratio:1.12,cs_ratio:12.51,net_wt:26.2,months:[8],month_rev:{8:435075},colls:[["CASCADE",100.0]],items:[["Earring",100.0]],groups:[["BALI - HOOPS",100.0]],colors:[["WG",100.0]],last_buy:"2024-08-22",y24:435075,y25:0,growth:-100.0},
+  "RAJ JEWELLERS":{rep:"Shailendra",rev:412737,orders:3,avg:137579,dia_ratio:1.94,cs_ratio:6.24,net_wt:13.3,months:[6],month_rev:{6:412737},colls:[["EVERGREENS",66.7],["CASCADE",33.3]],items:[["Ring",100.0]],groups:[["OPEN RING",100.0]],colors:[["WG",100.0]],last_buy:"2024-06-27",y24:412737,y25:0,growth:-100.0},
+  "Atul Jewellers":{rep:"Shailendra",rev:394238,orders:2,avg:197119,dia_ratio:2.78,cs_ratio:6.82,net_wt:11.1,months:[5],month_rev:{5:394238},colls:[["CASCADE",50.0],["EVERGREENS",50.0]],items:[["Earring",50.0],["P Earring",50.0]],groups:[["BALI - HOOPS",50.0],["STUDS",50.0]],colors:[["WG",100.0]],last_buy:"2024-05-29",y24:394238,y25:0,growth:-100.0},
+  "PANJAB JEWELS AND GEMS LLP":{rep:"Shailendra",rev:380700,orders:2,avg:190350,dia_ratio:3.33,cs_ratio:0.0,net_wt:12.5,months:[3],month_rev:{3:380700},colls:[["MOONLIGHT",100.0]],items:[["Ring",100.0]],groups:[["OPEN RING",100.0]],colors:[["WG",100.0]],last_buy:"2026-03-25",y24:0,y25:0,growth:null},
+  "JODHAMAL KAILASH CHAND JAIN JEWELLERS PVT. LTD":{rep:"Shailendra",rev:365270,orders:6,avg:60878,dia_ratio:0.52,cs_ratio:7.68,net_wt:23.5,months:[10],month_rev:{10:365270},colls:[["CASCADE",100.0]],items:[["Ring",66.7],["Earring",33.3]],groups:[["FUN",66.7],["EVERY DAY",16.7]],colors:[["WG",100.0]],last_buy:"2024-10-26",y24:365270,y25:0,growth:-100.0},
+  "K N JEWELLERS":{rep:"Shailendra",rev:328833,orders:3,avg:109611,dia_ratio:2.02,cs_ratio:4.33,net_wt:18.7,months:[5],month_rev:{5:328833},colls:[["CASCADE",66.7],["EVERGREENS",33.3]],items:[["Ring",100.0]],groups:[["OPEN RING",66.7],["BAND",33.3]],colors:[["WG",100.0]],last_buy:"2024-05-18",y24:328833,y25:0,growth:-100.0},
+  "KAMNA JEWELLERS":{rep:"Shailendra",rev:259503,orders:2,avg:129752,dia_ratio:2.52,cs_ratio:5.99,net_wt:10.4,months:[10],month_rev:{10:259503},colls:[["MOONLIGHT",50.0],["CASCADE",50.0]],items:[["Earring",50.0],["Ring",50.0]],groups:[["CHANDBALI",50.0],["BALI - HOOPS",50.0]],colors:[["WG",100.0]],last_buy:"2024-10-24",y24:259503,y25:0,growth:-100.0},
+  "RATTAN LAL JEWELLERS":{rep:"Shailendra",rev:247045,orders:3,avg:82348,dia_ratio:1.55,cs_ratio:6.15,net_wt:13.0,months:[9],month_rev:{9:247045},colls:[["CASCADE",100.0]],items:[["Ring",100.0]],groups:[["OPEN RING",66.7],["EVERY DAY",33.3]],colors:[["WG",100.0]],last_buy:"2024-09-12",y24:247045,y25:0,growth:-100.0},
+  "PRET BY KASHI":{rep:"Shailendra",rev:231284,orders:1,avg:231284,dia_ratio:0.96,cs_ratio:25.12,net_wt:14.8,months:[1],month_rev:{1:231284},colls:[["CASCADE",100.0]],items:[["Earring",100.0]],groups:[["BALI - HOOPS",100.0]],colors:[["WG",100.0]],last_buy:"2025-01-28",y24:0,y25:231284,growth:null},
+  "DIA  AURA":{rep:"Shailendra",rev:210993,orders:2,avg:105496,dia_ratio:4.66,cs_ratio:7.71,net_wt:10.9,months:[7],month_rev:{7:210993},colls:[["EVERGREENS",50.0],["CASCADE",50.0]],items:[["Earring",50.0],["Ring",50.0]],groups:[["BALI - HOOPS",50.0],["STUDS",50.0]],colors:[["WG",100.0]],last_buy:"2024-07-23",y24:210993,y25:0,growth:-100.0},
+  "NTS Navrattan Jewellers Pvt Ltd":{rep:"Shailendra",rev:176747,orders:1,avg:176747,dia_ratio:2.92,cs_ratio:7.25,net_wt:6.1,months:[6],month_rev:{6:176747},colls:[["CASCADE",100.0]],items:[["Ring",100.0]],groups:[["OPEN RING",100.0]],colors:[["WG",100.0]],last_buy:"2024-06-20",y24:176747,y25:0,growth:-100.0},
+  "BOTHRA & BAGMAR JEWELLERS":{rep:"Shailendra",rev:166117,orders:1,avg:166117,dia_ratio:3.63,cs_ratio:2.73,net_wt:4.3,months:[10],month_rev:{10:166117},colls:[["EVERGREENS",100.0]],items:[["Ring",100.0]],groups:[["CIRCLE OF LIFE",100.0]],colors:[["WG",100.0]],last_buy:"2025-10-30",y24:0,y25:166117,growth:null},
+  "JAIN SONS JEWELLERS":{rep:"Shailendra",rev:97312,orders:1,avg:97312,dia_ratio:0.0,cs_ratio:4.86,net_wt:5.7,months:[11],month_rev:{11:97312},colls:[["EVERGREENS",100.0]],items:[["Earring",100.0]],groups:[],colors:[["WG",100.0]],last_buy:"2025-11-11",y24:0,y25:97312,growth:null},
+  "Narayan Das Saraf Jewellers Pvt Ltd":{rep:"Shailendra",rev:87671,orders:1,avg:87671,dia_ratio:2.25,cs_ratio:2.36,net_wt:3.9,months:[7],month_rev:{7:87671},colls:[["CASCADE",100.0]],items:[["Ring",100.0]],groups:[["OPEN RING",100.0]],colors:[["WG",100.0]],last_buy:"2024-07-02",y24:87671,y25:0,growth:-100.0}
+};
+
+function tier(rev){return rev>=50000000?'Platinum':rev>=10000000?'Gold':rev>=2500000?'Silver':'Bronze'}
+function tierClass(rev){return rev>=50000000?'bpt':rev>=10000000?'bgo':rev>=2500000?'bsi':'bbr'}
+function touchFreq(rev,nm){
+  if(rev>=50000000) return {freq:'Every 3 weeks',color:'#f5c842'};
+  if(rev>=10000000) return {freq:'Monthly',color:'#c9a96e'};
+  if(rev>=2500000) return {freq:'Every 6 weeks',color:'#9daab8'};
+  return {freq:'Quarterly',color:'#776699'};
+}
+function fmtRev(v){if(v>=10000000)return'₹'+(v/10000000).toFixed(2)+'Cr';if(v>=100000)return'₹'+(v/100000).toFixed(1)+'L';return'₹'+(v/1000).toFixed(0)+'K'}
+function fmtAvg(v){return'₹'+(v/1000).toFixed(0)+'K'}
+function collColor(c){return COLL_COLORS[c]||'#c9a96e'}
+
+function buildCard(name, c){
+  if(!c||c.rev===0) return '';
+  const t = tier(c.rev);
+  const tc = tierClass(c.rev);
+  const tf = touchFreq(c.rev);
+  const repBadge = c.rep==='HRK'?'bhr':'bsh';
+  const top1 = c.colls[0]||['—',0];
+  const top2 = c.colls[1]||['—',0];
+  const top3 = c.colls[2]||['—',0];
+  const topItem = c.items[0]||['—',0];
+  const topGrp = c.groups[0]||['—',0];
+  const monthDots = MN.slice(1).map((m,i)=>{
+    const active = c.months.includes(i+1);
+    const rev = c.month_rev[i+1]||0;
+    const cls = active?(rev>=10000000?'m-active" style="background:#366018;color:#b0e870':rev>=5000000?'m-active" style="background:#2a5018;color:#8ad060':rev>=1000000?'m-active" style="background:#1a3810;color:#5aaa40':'m-active" style="background:#0d2008;color:#3a7a28'):'m-inactive';
+    return `<div class="m-dot ${cls}" title="${m}: ${fmtRev(rev)}">${m.slice(0,1)}</div>`;
+  }).join('');
+  
+  // Touch recommendation
+  const buyMonths = c.months.map(m=>MN[m]).join(', ');
+  const missedMonths = [1,2,3,4,5,6,7,8,9,10,11,12].filter(m=>!c.months.includes(m));
+  const pitchNote = `Lead with <strong style="color:${collColor(top1[0])}">${top1[0]} (${top1[1]}%)</strong> → then ${top2[0]||'—'}. Focus on <strong>${topItem[0]}</strong> pieces. Dia intensity ${c.dia_ratio}x.`;
+
+  return `<div class="client-card" data-tier="${t}" data-name="${name.toLowerCase()}">
+    <div class="cc-header">
+      <div>
+        <div class="cc-name">${name}</div>
+        <div style="margin-top:4px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="badge ${tc}">${t}</span>
+          <span class="badge ${repBadge}">${c.rep}</span>
+          <span class="badge" style="background:#1a1200;color:#e0a020;border:1px solid #4a3800">Touch: ${tf.freq}</span>
+          ${c.growth!==null&&c.growth!==-100?`<span class="badge ${c.growth>0?'bg':'br2'}">${c.growth>0?'↑':'↓'}${Math.abs(c.growth)}% YoY</span>`:''}
+          ${c.growth===-100?`<span class="badge br2">⚠️ Lost</span>`:''}
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="cc-rev">${fmtRev(c.rev)}</div>
+        <div style="font-size:10px;color:#665588">${c.orders} orders · Avg ${fmtAvg(c.avg)}</div>
+      </div>
+    </div>
+    <div class="cc-grid">
+      <div class="cc-stat"><div class="cc-stat-label">Top Collection</div><div class="cc-stat-val" style="color:${collColor(top1[0])}">${top1[0]}<span style="color:#665588;font-size:10px"> ${top1[1]}%</span></div></div>
+      <div class="cc-stat"><div class="cc-stat-label">Top Item</div><div class="cc-stat-val">${topItem[0]}<span style="color:#665588;font-size:10px"> ${topItem[1]}%</span></div></div>
+      <div class="cc-stat"><div class="cc-stat-label">Dia Intensity (×10)</div><div class="cc-stat-val" style="color:${c.dia_ratio>=4?'#f5c842':c.dia_ratio>=3?'#c9a96e':c.dia_ratio>=2?'#9daab8':'#665588'}">${c.dia_ratio}x</div></div>
+      <div class="cc-stat"><div class="cc-stat-label">Avg Order</div><div class="cc-stat-val">${fmtAvg(c.avg)}</div></div>
+    </div>
+    <div class="cc-row">
+      ${c.colls.map(([col,pct])=>`<span class="cc-pill"><span class="dot" style="background:${collColor(col)}"></span>${col} <span>${pct}%</span></span>`).join('')}
+      ${c.groups.slice(0,2).map(([g,p])=>`<span class="cc-pill">📦 ${g} <span>${p}%</span></span>`).join('')}
+    </div>
+    <div class="cc-months">${monthDots}</div>
+    <div class="touch-rec">🎯 <strong>Pitch:</strong> ${pitchNote} &nbsp;|&nbsp; <strong>Active months:</strong> ${buyMonths||'Irregular'} &nbsp;|&nbsp; <strong>Color pref:</strong> ${(c.colors[0]||['WG'])[0]}</div>
+  </div>`;
+}
+
+// KPI responsive: show all on mobile in compact 2-col grid
+if(window.innerWidth<=480){
+  document.querySelector('.kpi-bar').style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px 12px;background:#110f1e;border-bottom:1px solid #221e38;flex-wrap:wrap';
+  document.querySelectorAll('.kpi').forEach(k=>{ k.style.display='block'; k.style.minWidth='0'; });
+}
+
+// Render HRK cards
+const hrkClients = Object.entries(CLIENTS).filter(([,c])=>c.rep==='HRK'&&c.rev>0).sort((a,b)=>b[1].rev-a[1].rev);
+document.getElementById('hrk-cards').innerHTML = hrkClients.map(([n,c])=>buildCard(n,c)).join('');
+
+// Render Shailendra cards
+const shaiClients = Object.entries(CLIENTS).filter(([,c])=>c.rep==='Shailendra'&&c.rev>0).sort((a,b)=>b[1].rev-a[1].rev);
+document.getElementById('shai-cards').innerHTML = shaiClients.map(([n,c])=>buildCard(n,c)).join('');
+
+function filterCards(containerId, search='', tierFilter=''){
+  document.querySelectorAll(`#${containerId} .client-card`).forEach(card=>{
+    const nameMatch = !search || card.dataset.name.includes(search.toLowerCase());
+    const tierMatch = !tierFilter || card.dataset.tier===tierFilter;
+    card.style.display = (nameMatch&&tierMatch)?'':'none';
+  });
+}
+
+// ===== TOUCH PLAN =====
+const touchData = [
+  {month:'January',priority:'🔴 PEAK',color:'#3a1800',border:'#8a3800',clients:[
+    {n:'SHRI KRISHNA JEWELLERS (B-HILL)',rev:'₹247.72L in Jan',why:'Largest Jan buyer. Total 2yr: ₹7.97Cr. Call by Dec 15.',rep:'HRK'},
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹143.28L in Jan',why:'Total 2yr: ₹10.27Cr. Strong Jan buyer. Personal visit.',rep:'HRK'},
+    {n:'AB Jewels',rev:'₹133.57L in Jan',why:'Buys ONLY in January. Total 2yr: ₹1.34Cr. Miss this = miss them.',rep:'HRK'},
+    {n:'Gems And Jewels Palace',rev:'₹101.21L in Jan',why:'Total 2yr: ₹6.38Cr. Jan is one of their top months.',rep:'Shailendra'},
+    {n:'ANMOL JEWELLERS',rev:'₹94.96L in Jan',why:'Total 2yr: ₹1.76Cr. Jan is their single best month.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹75.61L in Jan',why:'Total 2yr: ₹5.81Cr. Monthly buyer. Always active.',rep:'HRK'},
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹34.71L in Jan',why:'Total 2yr: ₹5.49Cr. Q1 buyer. Pitch MOONLIGHT.',rep:'HRK'},
+    {n:'Jaisalmer Arts & Crafts',rev:'₹34.38L in Jan',why:'Total 2yr: ₹37.73L. Jan is their peak. MOONLIGHT 75%.',rep:'Shailendra'},
+    {n:'Vijay Jewellers PATIALA',rev:'₹33.94L in Jan',why:'Total 2yr: ₹46.83L. Jan is their top month.',rep:'Shailendra'},
+    {n:'FRONTIER JEWELLERS',rev:'₹32.83L in Jan',why:'Total 2yr: ₹94.90L. Jan active. Lead with CASCADE.',rep:'Shailendra'},
+    {n:'CH Jewellers Pvt Ltd.',rev:'₹30.21L in Jan',why:'Total 2yr: ₹6.21Cr. Monthly buyer. Always active.',rep:'HRK'},
+    {n:'Harsahaimal Shaimal Jewellers',rev:'₹29.07L in Jan',why:'Total 2yr: ₹2.14Cr. Jan active buyer.',rep:'HRK'},
+  ]},
+  {month:'February',priority:'🟠 HIGH',color:'#2a1800',border:'#6b4c1e',clients:[
+    {n:'CH Jewellers Pvt Ltd.',rev:'₹120.47L in Feb',why:'Total 2yr: ₹6.21Cr. Feb is a peak month for them.',rep:'HRK'},
+    {n:'NEELKANTH GOLD AND DIAMONDS',rev:'₹52.72L in Feb',why:'Total 2yr: ₹1.92Cr. Feb is their strongest month.',rep:'HRK'},
+    {n:'Shri Ram Hari Ram Jewellers',rev:'₹40.54L in Feb',why:'Total 2yr: ₹62.98L. Feb is top month for them.',rep:'HRK'},
+    {n:'AARTI JEWELLERS PVT LTD',rev:'₹36.56L in Feb',why:'Total 2yr: ₹39.47L. Nearly all revenue in Feb.',rep:'HRK'},
+    {n:'NEELKANTH JEWELLERS PVT. LTD.',rev:'₹19.44L in Feb',why:'Total 2yr: ₹22.27L. Q1 buyer. CASCADE 92%.',rep:'HRK'},
+    {n:'SOLITAIRE DIAMOND BOUTIQUE',rev:'₹18.53L in Feb',why:'Total 2yr: ₹62.26L. Regular Feb buyer.',rep:'Shailendra'},
+    {n:'VINSARA JEWELS',rev:'₹17.68L in Feb',why:'Total 2yr: ₹53.79L. Feb buyer. CASCADE+MOONLIGHT.',rep:'Shailendra'},
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹15.98L in Feb',why:'Total 2yr: ₹5.49Cr. Q1 buyer. Lead MOONLIGHT.',rep:'HRK'},
+    {n:'AARUSH GEMS PVT LTD',rev:'₹14.35L in Feb',why:'Total 2yr: ₹18.74L. Feb is their best month.',rep:'Shailendra'},
+    {n:'MEERA JEWEL HOUSE',rev:'₹13.89L in Feb',why:'Total 2yr: ₹52.45L. Feb active. MOONLIGHT+CASCADE.',rep:'Shailendra'},
+    {n:'ANMOL JEWELLERS',rev:'₹13.26L in Feb',why:'Total 2yr: ₹1.76Cr. Monthly buyer.',rep:'HRK'},
+  ]},
+  {month:'March',priority:'🟠 HIGH',color:'#2a1800',border:'#6b4c1e',clients:[
+    {n:'P N GADGIL JEWELLERS LIMITED',rev:'₹204.15L in Mar',why:'Total 2yr: ₹2.12Cr. March = 96% of their annual revenue.',rep:'HRK'},
+    {n:'CH Jewellers Pvt Ltd.',rev:'₹149.38L in Mar',why:'Total 2yr: ₹6.21Cr. Must-visit in March.',rep:'HRK'},
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹112.81L in Mar',why:'Total 2yr: ₹5.49Cr. 65 transactions in March.',rep:'HRK'},
+    {n:'P.C. CHANDRA & SONS (INDIA)',rev:'₹92.33L in Mar',why:'Total 2yr: ₹1.22Cr. March is their peak month.',rep:'HRK'},
+    {n:'HAZOORILAL JEWELLERS PVT. LTD.',rev:'₹92.25L in Mar',why:'Total 2yr: ₹8.37Cr. Strong March buyer.',rep:'HRK'},
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹59.10L in Mar',why:'Total 2yr: ₹10.27Cr. Mar-26 strong buy.',rep:'HRK'},
+    {n:'Gems And Jewels Palace',rev:'₹37.50L in Mar',why:'Total 2yr: ₹6.38Cr. Mar buyer. Lead EVERGREENS.',rep:'Shailendra'},
+    {n:'MADAN LAL CHHAGAN LAL',rev:'₹33.40L in Mar',why:'Total 2yr: ₹35.14L. Mar is top month.',rep:'HRK'},
+    {n:'TEJASWI JEWELLERS',rev:'₹26.20L in Mar',why:'Total 2yr: ₹33.74L. Jan-Mar cluster buyer.',rep:'Shailendra'},
+    {n:'AJB FINE JEWELS',rev:'₹25.17L in Mar',why:'Total 2yr: ₹41.14L. Mar-May active. CASCADE 88.5%.',rep:'Shailendra'},
+    {n:'VINSARA JEWELS',rev:'₹19.51L in Mar',why:'Total 2yr: ₹53.79L. Q1 buyer.',rep:'Shailendra'},
+  ]},
+  {month:'April',priority:'🟡 MED',color:'#1a1800',border:'#4a4000',clients:[
+    {n:'HAZOORILAL JEWELLERS PVT. LTD.',rev:'₹198.18L in Apr',why:'Total 2yr: ₹8.37Cr. Apr-25 was their biggest month ever.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹98.19L in Apr',why:'Total 2yr: ₹5.81Cr. Strong April buyer.',rep:'HRK'},
+    {n:'AKM Mehra Sons Jewellers NDSE',rev:'₹54.54L in Apr',why:'Total 2yr: ₹1.42Cr. Apr-May is their only buying window.',rep:'HRK'},
+    {n:'PANNA HANDICRAFTS',rev:'₹27.40L in Apr',why:'Total 2yr: ₹1.04Cr. Apr buyer. CASCADE 60%.',rep:'Shailendra'},
+    {n:'Harsahaimal Shiamlal (Lucknow)',rev:'₹26.43L in Apr',why:'Total 2yr: ₹1.74Cr. Apr buyer.',rep:'HRK'},
+    {n:'SOLITAIRE DIAMOND BOUTIQUE',rev:'₹24.82L in Apr',why:'Total 2yr: ₹62.26L. Apr buyer. CASCADE 63%.',rep:'Shailendra'},
+    {n:'ANMOL JEWELLERS',rev:'₹21.57L in Apr',why:'Total 2yr: ₹1.76Cr. Monthly buyer.',rep:'HRK'},
+    {n:'SHRI KRISHNA (B-HILL)',rev:'₹21.18L in Apr',why:'Total 2yr: ₹7.97Cr. Apr buyer. CASCADE 65%.',rep:'HRK'},
+    {n:'Gems And Jewels Palace',rev:'₹21.00L in Apr',why:'Total 2yr: ₹6.38Cr. Apr buyer.',rep:'Shailendra'},
+    {n:'FRONTIER JEWELLERS',rev:'₹18.07L in Apr',why:'Total 2yr: ₹94.90L. Apr active.',rep:'Shailendra'},
+    {n:'BATUKBHAI JEWELLERS',rev:'₹14.73L in Apr',why:'Total 2yr: ₹32.56L. Apr-May buyer.',rep:'Shailendra'},
+  ]},
+  {month:'May',priority:'🟡 MED',color:'#1a1800',border:'#4a4000',clients:[
+    {n:'AKM Mehra Sons Jewellers NDSE',rev:'₹65.05L in May',why:'Total 2yr: ₹1.42Cr. May is their single best month.',rep:'HRK'},
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹57.86L in May',why:'Total 2yr: ₹10.27Cr. May active. Must touch.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹40.53L in May',why:'Total 2yr: ₹5.81Cr. Monthly buyer.',rep:'HRK'},
+    {n:'BATUKBHAI JEWELLERS',rev:'₹14.51L in May',why:'Total 2yr: ₹32.56L. Apr-May cluster.',rep:'Shailendra'},
+    {n:'RIKHAB DAS UDAY CHAND',rev:'₹11.68L in May',why:'Total 2yr: ₹51.90L. May is their top month.',rep:'HRK'},
+    {n:'LAHORE JEWELLERS',rev:'₹8.66L in May',why:'Total 2yr: ₹43.09L. May buyer. CASCADE 67%.',rep:'Shailendra'},
+    {n:'Gems And Jewels Palace',rev:'₹8.11L in May',why:'Total 2yr: ₹6.38Cr. May active. EVERGREENS.',rep:'Shailendra'},
+    {n:'ANMOL JEWELLERS',rev:'₹5.07L in May',why:'Total 2yr: ₹1.76Cr. Monthly buyer.',rep:'HRK'},
+    {n:'AJB FINE JEWELS',rev:'₹4.87L in May',why:'Total 2yr: ₹41.14L. Mar-May cluster.',rep:'Shailendra'},
+  ]},
+  {month:'June',priority:'🟡 MED',color:'#1a1800',border:'#4a4000',clients:[
+    {n:'RATHOD JEWELLERS',rev:'₹77.46L in Jun',why:'Total 2yr: ₹5.81Cr. Best slow-season month.',rep:'HRK'},
+    {n:'FRONTIER JEWELLERS',rev:'₹32.71L in Jun',why:'Total 2yr: ₹94.90L. Strong June buyer.',rep:'Shailendra'},
+    {n:'INAARA JEWELS',rev:'₹26.00L in Jun',why:'Total 2yr: ₹26.00L. Buys ONLY in June. Entire revenue here.',rep:'Shailendra'},
+    {n:'SHRI KRISHNA (B-HILL)',rev:'₹18.17L in Jun',why:'Total 2yr: ₹7.97Cr. Jun buyer. Build pre-peak.',rep:'HRK'},
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹15.17L in Jun',why:'Total 2yr: ₹10.27Cr. Keep relationship warm.',rep:'HRK'},
+    {n:'MANAAL',rev:'₹14.56L in Jun',why:'Total 2yr: ₹14.56L. Buys ONLY in June. EVERGREENS 57%.',rep:'Shailendra'},
+    {n:'TALWAR JEWELLERY HOUSE',rev:'₹12.51L in Jun',why:'Total 2yr: ₹14.15L. Jun buyer. EVERGREENS 57%.',rep:'Shailendra'},
+    {n:'ANMOL JEWELLERS',rev:'₹9.77L in Jun',why:'Total 2yr: ₹1.76Cr. Monthly buyer.',rep:'HRK'},
+  ]},
+  {month:'July',priority:'🟡 MED',color:'#1a1800',border:'#4a4000',clients:[
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹79.11L in Jul',why:'Total 2yr: ₹10.27Cr. Strong mid-year buyer.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹55.67L in Jul',why:'Total 2yr: ₹5.81Cr. Monthly buyer.',rep:'HRK'},
+    {n:'CH Jewellers Pvt Ltd.',rev:'₹43.42L in Jul',why:'Total 2yr: ₹6.21Cr. Jul-25 strong buy.',rep:'HRK'},
+    {n:'SHRI KRISHNA (B-HILL)',rev:'₹32.04L in Jul',why:'Total 2yr: ₹7.97Cr. Jul buyer.',rep:'HRK'},
+    {n:'AKM Mehra Sons Jewellers NDSE',rev:'₹9.29L in Jul',why:'Total 2yr: ₹1.42Cr. Jul active.',rep:'HRK'},
+    {n:'Harsahaimal Shiamlal (Lucknow)',rev:'₹8.46L in Jul',why:'Total 2yr: ₹1.74Cr. Jul buyer. Build pre-Aug.',rep:'HRK'},
+    {n:'FRONTIER JEWELLERS',rev:'₹5.42L in Jul',why:'Total 2yr: ₹94.90L. Jul active.',rep:'Shailendra'},
+    {n:'TALWARSONS JEWELLERS',rev:'₹3.38L in Jul',why:'Total 2yr: ₹44.48L. Jul buyer. CASCADE 85%.',rep:'Shailendra'},
+  ]},
+  {month:'August',priority:'🔴 PEAK',color:'#3a1800',border:'#8a3800',clients:[
+    {n:'CH Jewellers Pvt Ltd.',rev:'₹234.06L in Aug',why:'Total 2yr: ₹6.21Cr. Aug is their single biggest month. Priority visit.',rep:'HRK'},
+    {n:'SHRI KRISHNA (B-HILL)',rev:'₹209.01L in Aug',why:'Total 2yr: ₹7.97Cr. Aug-25 alone = ₹188.68L.',rep:'HRK'},
+    {n:'Gems And Jewels Palace',rev:'₹194.25L in Aug',why:'Total 2yr: ₹6.38Cr. Aug-25 = ₹188.68L — biggest single month.',rep:'Shailendra'},
+    {n:'Harsahaimal Shiamlal (Lucknow)',rev:'₹88.08L in Aug',why:'Total 2yr: ₹1.74Cr. 54 transactions in Aug.',rep:'HRK'},
+    {n:'Harsahaimal Shaimal Jewellers',rev:'₹77.66L in Aug',why:'Total 2yr: ₹2.14Cr. Aug is peak month.',rep:'HRK'},
+    {n:'HAZOORILAL JEWELLERS PVT. LTD.',rev:'₹48.09L in Aug',why:'Total 2yr: ₹8.37Cr. Aug active.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹46.16L in Aug',why:'Total 2yr: ₹5.81Cr. Monthly buyer.',rep:'HRK'},
+    {n:'GEM ARTS EMPORIUM',rev:'₹40.94L in Aug',why:'Total 2yr: ₹1.16Cr. Aug-Sep is their only buying season.',rep:'Shailendra'},
+    {n:'Tarun Jethi A Luxury Jeweller',rev:'₹39.42L in Aug',why:'Total 2yr: ₹52.72L. Aug buyer. CASCADE+EVERGREENS.',rep:'Shailendra'},
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹34.82L in Aug',why:'Total 2yr: ₹10.27Cr. Aug active.',rep:'HRK'},
+    {n:'R B GEMS & JEWELS',rev:'₹33.86L in Aug',why:'Total 2yr: ₹33.86L. Buys ONLY in August.',rep:'Shailendra'},
+    {n:'K.D. GEMS',rev:'₹31.69L in Aug',why:'Total 2yr: ₹35.82L. Aug is their top month. MOONLIGHT+EG.',rep:'Shailendra'},
+  ]},
+  {month:'September',priority:'🔴 PEAK',color:'#3a1800',border:'#8a3800',clients:[
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹525.88L in Sep',why:'Total 2yr: ₹10.27Cr. 196 transactions in Sep. TOP priority.',rep:'HRK'},
+    {n:'HAZOORILAL JEWELLERS PVT. LTD.',rev:'₹196.81L in Sep',why:'Total 2yr: ₹8.37Cr. 83 transactions in Sep.',rep:'HRK'},
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹115.24L in Sep',why:'Total 2yr: ₹5.49Cr. 87 transactions in Sep.',rep:'HRK'},
+    {n:'SHRI KRISHNA (B-HILL)',rev:'₹94.65L in Sep',why:'Total 2yr: ₹7.97Cr. High priority Sep buyer.',rep:'HRK'},
+    {n:'NEELKANTH GOLD AND DIAMONDS',rev:'₹84.36L in Sep',why:'Total 2yr: ₹1.92Cr. Bulk of annual revenue in Sep.',rep:'HRK'},
+    {n:'GEM ARTS EMPORIUM',rev:'₹74.65L in Sep',why:'Total 2yr: ₹1.16Cr. Aug-Sep is their entire season.',rep:'Shailendra'},
+    {n:'CH Jewellers Pvt Ltd.',rev:'₹34.59L in Sep',why:'Total 2yr: ₹6.21Cr. Monthly buyer.',rep:'HRK'},
+    {n:'Harsahaimal Shaimal Jewellers',rev:'₹25.95L in Sep',why:'Total 2yr: ₹2.14Cr. Sep active.',rep:'HRK'},
+    {n:'Alankar JewelArts Pvt. Ltd.',rev:'₹20.24L in Sep',why:'Total 2yr: ₹80.72L. Sep-25 buyer. CASCADE 95%.',rep:'Shailendra'},
+    {n:'Harsahaimal Shiamlal (Lucknow)',rev:'₹18.71L in Sep',why:'Total 2yr: ₹1.74Cr. Sep active.',rep:'HRK'},
+    {n:'Birdhi Chand GD Jewellers',rev:'₹18.26L in Sep',why:'Total 2yr: ₹69.86L. MOONLIGHT 90%. Sep buyer.',rep:'HRK'},
+  ]},
+  {month:'October',priority:'🔴 PEAK',color:'#3a1800',border:'#8a3800',clients:[
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹196.37L in Oct',why:'Total 2yr: ₹5.49Cr. 129 transactions in Oct — highest ever for any client.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹142.64L in Oct',why:'Total 2yr: ₹5.81Cr. 64 transactions. Diwali peak.',rep:'HRK'},
+    {n:'HAZOORILAL & SONS JEWELLERS',rev:'₹110.00L in Oct',why:'Total 2yr: ₹10.27Cr. 45 transactions.',rep:'HRK'},
+    {n:'Ranka Jewellers And Sons',rev:'₹100.83L in Oct',why:'Total 2yr: ₹1.05Cr. Oct is their biggest month.',rep:'HRK'},
+    {n:'P.C.CHANDRA (JEWELLERS) GH NEW',rev:'₹83.77L in Oct',why:'Total 2yr: ₹85.87L. Oct = nearly their entire revenue.',rep:'HRK'},
+    {n:'NEELKANTH GOLD AND DIAMONDS',rev:'₹40.91L in Oct',why:'Total 2yr: ₹1.92Cr. Sep-Oct peak window.',rep:'HRK'},
+    {n:'Harsahaimal Shaimal Jewellers',rev:'₹33.38L in Oct',why:'Total 2yr: ₹2.14Cr. Oct active.',rep:'HRK'},
+    {n:'HAZOORILAL JEWELLERS PVT. LTD.',rev:'₹33.17L in Oct',why:'Total 2yr: ₹8.37Cr. Oct buyer.',rep:'HRK'},
+    {n:'Birdhi Chand GD Jewellers',rev:'₹33.15L in Oct',why:'Total 2yr: ₹69.86L. Oct buyer. MOONLIGHT 90%.',rep:'HRK'},
+    {n:'Moti Sons Jewellers Ltd',rev:'₹31.02L in Oct',why:'Total 2yr: ₹34.91L. Oct-Nov is their only season.',rep:'HRK'},
+    {n:'MEERA JEWEL HOUSE',rev:'₹24.31L in Oct',why:'Total 2yr: ₹52.45L. Oct active. MOONLIGHT+CASCADE.',rep:'Shailendra'},
+  ]},
+  {month:'November',priority:'🟠 HIGH',color:'#2a1800',border:'#6b4c1e',clients:[
+    {n:'Gems And Jewels Palace',rev:'₹212.83L in Nov',why:'Total 2yr: ₹6.38Cr. Nov-25 = ₹212.83L — their single best month.',rep:'Shailendra'},
+    {n:'Harsahaimal Shaimal Jewellers',rev:'₹28.33L in Nov',why:'Total 2yr: ₹2.14Cr. Nov active.',rep:'HRK'},
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹19.88L in Nov',why:'Total 2yr: ₹5.49Cr. Q4 buyer.',rep:'HRK'},
+    {n:'TALWARSONS JEWELLERS',rev:'₹16.62L in Nov',why:'Total 2yr: ₹44.48L. Nov buyer. CASCADE 85%.',rep:'Shailendra'},
+    {n:'Birdhi Chand GD Jewellers',rev:'₹15.12L in Nov',why:'Total 2yr: ₹69.86L. Nov active. MOONLIGHT 90%.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹13.91L in Nov',why:'Total 2yr: ₹5.81Cr. Monthly buyer.',rep:'HRK'},
+    {n:'VINSARA JEWELS',rev:'₹7.56L in Nov',why:'Total 2yr: ₹53.79L. Nov buyer. CHANDBALI focus.',rep:'Shailendra'},
+    {n:'Dutta Heritage Private Limited',rev:'₹6.63L in Nov',why:'Total 2yr: ₹21.12L. Nov buyer. MOONLIGHT 69%.',rep:'Shailendra'},
+    {n:'Shri Ram Hari Ram Jewellers',rev:'₹6.43L in Nov',why:'Total 2yr: ₹62.98L. Nov buyer. CASCADE 56%.',rep:'HRK'},
+    {n:'Panna Diamond World LLP',rev:'₹5.91L in Nov',why:'Total 2yr: ₹18.10L. Nov buyer. MOONLIGHT 67%.',rep:'HRK'},
+  ]},
+  {month:'December',priority:'🟠 HIGH',color:'#2a1800',border:'#6b4c1e',clients:[
+    {n:'HAZOORILAL JEWELLERS PVT. LTD.',rev:'₹248.91L in Dec',why:'Total 2yr: ₹8.37Cr. Dec-25 = ₹248.91L — their all-time peak.',rep:'HRK'},
+    {n:'SHRI KRISHNA (B-HILL)',rev:'₹163.59L in Dec',why:'Total 2yr: ₹7.97Cr. Dec-24 = ₹163.59L. Major buyer.',rep:'HRK'},
+    {n:'PANNA HANDICRAFTS',rev:'₹71.31L in Dec',why:'Total 2yr: ₹1.04Cr. Dec is their biggest month.',rep:'Shailendra'},
+    {n:'Gems And Jewels Palace',rev:'₹63.52L in Dec',why:'Total 2yr: ₹6.38Cr. Dec consistently active.',rep:'Shailendra'},
+    {n:'D.P.ABHUSHAN LTD (RATLAM)',rev:'₹52.81L in Dec',why:'Total 2yr: ₹5.49Cr. Q4 buyer.',rep:'HRK'},
+    {n:'Alankar JewelArts Pvt. Ltd.',rev:'₹39.96L in Dec',why:'Total 2yr: ₹80.72L. Dec = their top month. CASCADE 95%.',rep:'Shailendra'},
+    {n:'GEHNA GEMS & JEWELS',rev:'₹14.73L in Dec',why:'Total 2yr: ₹23.98L. Dec buyer. CASCADE 69%.',rep:'Shailendra'},
+    {n:'GDK JEWELS PVT LTD',rev:'₹14.17L in Dec',why:'Total 2yr: ₹21.22L. Dec buyer. MOONLIGHT 50%.',rep:'Shailendra'},
+    {n:'Jugal Kishore The Jewellers',rev:'₹12.26L in Dec',why:'Total 2yr: ₹15.95L. Dec buyer. MOONLIGHT 75%.',rep:'Shailendra'},
+    {n:'Harsahaimal Shaimal Jewellers',rev:'₹11.78L in Dec',why:'Total 2yr: ₹2.14Cr. Dec active.',rep:'HRK'},
+    {n:'RATHOD JEWELLERS',rev:'₹9.77L in Dec',why:'Total 2yr: ₹5.81Cr. Monthly buyer.',rep:'HRK'},
+  ]},
+]
+const tg = document.getElementById('touch-grid');
+// Responsive touch grid columns
+function setTouchGrid(){
+  const cols = window.innerWidth<=480?1:window.innerWidth<=768?1:window.innerWidth<=900?2:3;
+  tg.style.gridTemplateColumns = `repeat(${cols},1fr)`;
+}
+setTouchGrid();
+window.addEventListener('resize', setTouchGrid);
+touchData.forEach(t=>{
+  const isRed = t.priority.includes('PEAK');
+  const isOrange = t.priority.includes('HIGH');
+  const cardBg = isRed?'#1a0800':isOrange?'#160e00':'#121020';
+  const cardBorder = isRed?'#6a2800':isOrange?'#4a3200':'#2a2440';
+  tg.innerHTML+=`<div style="background:${cardBg};border:1px solid ${cardBorder};border-radius:10px;padding:14px">
+    <div style="font-size:15px;font-weight:800;color:#f5c842">${t.month}</div>
+    <div style="font-size:10px;color:#c9a96e;margin-bottom:10px">${t.priority} · ${t.clients.length} priority clients</div>
+    ${t.clients.map(c=>`<div style="padding:5px 0;border-bottom:1px solid #1e1628">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;color:#e0d8cc;font-weight:600">${c.n}</span>
+        <span class="badge ${c.rep==='HRK'?'bhr':'bsh'}" style="font-size:9px">${c.rep}</span>
+      </div>
+      <div style="font-size:10px;color:#8877bb;margin-top:1px">${c.rev!=='—'?`<span style="color:#f5c842">${c.rev}</span> · `:''} ${c.why}</div>
+    </div>`).join('')}
+  </div>`;
+});
+
+// ===== HEATMAP =====
+const allClients = Object.entries(CLIENTS).filter(([,c])=>c.rev>0).sort((a,b)=>b[1].rev-a[1].rev);
+const hmapBody = document.getElementById('hmap-body');
+allClients.forEach(([name,c])=>{
+  if(!c||c.rev===0) return;
+  const t = tier(c.rev);
+  const tc = tierClass(c.rev);
+  const repBadge = c.rep==='HRK'?'bhr':'bsh';
+  let row = `<tr><td class="cn sticky-col" title="${name}"><span class="badge ${tc}" style="font-size:8px">${t.slice(0,1)}</span> ${name.length>30?name.slice(0,28)+'…':name}</td>`;
+  row += `<td><span class="badge ${repBadge}" style="font-size:9px">${c.rep}</span></td>`;
+  for(let m=1;m<=12;m++){
+    const rv = c.month_rev[m]||0;
+    const cls = rv===0?'h0':rv>=50000000?'h4':rv>=10000000?'h3':rv>=1000000?'h2':'h1';
+    row+=`<td class="${cls}" title="${MN[m]}: ${fmtRev(rv)}">${rv>0?fmtRev(rv).replace('₹','').replace('Cr','C').replace('L','L'):'·'}</td>`;
+  }
+  row+=`<td style="font-size:10px;color:#f5c842;font-weight:700">${fmtRev(c.rev)}</td>`;
+  row+=`<td style="text-align:center;color:${c.dia_ratio>=4?'#f5c842':c.dia_ratio>=3?'#c9a96e':'#9daab8'}">${c.dia_ratio}x</td>`;
+  row+='</tr>';
+  hmapBody.innerHTML+=row;
+});
+
+// ===== COLLECTIONS =====
+const collData = [
+  {n:'CASCADE',rev:47735262,pct:41.7,c:'#f5c842'},
+  {n:'EVERGREENS',rev:38491380,pct:33.7,c:'#6b9ef5'},
+  {n:'MOONLIGHT',rev:20113534,pct:17.6,c:'#c06bf5'},
+  {n:'EVERGREENS2',rev:3649141,pct:3.2,c:'#6bf5a0'},
+  {n:'SYMPHONY',rev:1882865,pct:1.6,c:'#f5a06b'},
+  {n:'SEA GREEN',rev:877565,pct:0.8,c:'#6bf5f0'},
+  {n:'VJ MOONLIGHT',rev:536515,pct:0.5,c:'#a060e0'},
+  {n:'EVERGREENEX',rev:429709,pct:0.4,c:'#40d480'},
+  {n:'CASCADE2',rev:384545,pct:0.3,c:'#d4a830'},
+  {n:'VJ CASCADE',rev:259337,pct:0.2,c:'#e0c040'},
+];
+document.getElementById('coll-bars').innerHTML = collData.map(d=>`<div class="bar-row"><div class="bl">${d.n}</div><div class="bt"><div class="bf" style="width:${d.pct/41.7*100}%;background:${d.c}">${d.pct}%</div></div><div class="bv">${fmtRev(d.rev)}</div></div>`).join('');
+
+const itemData = [
+  {n:'*Necklace',rev:27559295,c:'#f5c842'},{n:'Earring',rev:24820461,c:'#6b9ef5'},
+  {n:'Ring',rev:22598791,c:'#c06bf5'},{n:'Bracelet',rev:9178102,c:'#f5a06b'},
+  {n:'Bangle',rev:7149926,c:'#6bf5a0'},{n:'N Earring',rev:7052987,c:'#6bf5f0'},
+  {n:'Half Bangle',rev:6001234,c:'#a060e0'},{n:'Necklace2',rev:4463977,c:'#d4a830'},
+  {n:'Necklace',rev:2927893,c:'#e0c040'},{n:'BROOCH',rev:672549,c:'#9988cc'},
+];
+const maxItemRev = itemData[0].rev;
+document.getElementById('item-bars').innerHTML = itemData.map(d=>`<div class="bar-row"><div class="bl">${d.n}</div><div class="bt"><div class="bf" style="width:${d.rev/maxItemRev*100}%;background:${d.c}">${fmtRev(d.rev)}</div></div><div class="bv">${(d.rev/114400000*100).toFixed(1)}%</div></div>`).join('');
+
+const groupData = [
+  {n:'Single Line',rev:8248756,c:'#f5c842'},{n:'Mono Chrome',rev:7879962,c:'#6b9ef5'},
+  {n:'Cocktail',rev:7018533,c:'#c06bf5'},{n:'Band',rev:5305783,c:'#f5a06b'},
+  {n:'Studs',rev:4469296,c:'#6bf5a0'},{n:'Every Day',rev:3639677,c:'#6bf5f0'},
+  {n:'Bali-Hoops',rev:3487957,c:'#a060e0'},{n:'2-3 Liners',rev:3083833,c:'#d4a830'},
+  {n:'Chandbali',rev:3068190,c:'#9988cc'},{n:'Multi Liners',rev:3042202,c:'#e0c040'},
+  {n:'Couture',rev:2644774,c:'#f5c842'},{n:'Classic',rev:2463403,c:'#6b9ef5'},
+  {n:'Fun',rev:2161330,c:'#665588'},{n:'Front Back',rev:1533334,c:'#c9a96e'},
+  {n:'Open Ring',rev:1523848,c:'#9daab8'},
+];
+const maxGrp = groupData[0].rev;
+document.getElementById('group-bars').innerHTML = groupData.map(d=>`<div class="bar-row"><div class="bl">${d.n}</div><div class="bt"><div class="bf" style="width:${d.rev/maxGrp*100}%;background:${d.c}">${fmtRev(d.rev)}</div></div><div class="bv">${(d.rev/114400000*100).toFixed(1)}%</div></div>`).join('');
+
+const colorData = [{n:'White Gold (WG)',rev:107056126,c:'#e0e8f0'},{n:'Yellow Gold (YG)',rev:3731684,c:'#f5c842'},{n:'Rose Gold (RG)',rev:1496335,c:'#e08060'},{n:'Mixed',rev:870000,c:'#c9a96e'}];
+document.getElementById('color-bars').innerHTML = colorData.map(d=>`<div class="bar-row"><div class="bl">${d.n}</div><div class="bt"><div class="bf" style="width:${d.rev/107056126*100}%;background:${d.c};color:#0c0b14">${(d.rev/114400000*100).toFixed(1)}%</div></div><div class="bv">${fmtRev(d.rev)}</div></div>`).join('');
+
+// Pitch table top 20
+const top20 = allClients.slice(0,20);
+const pitchGroups = {
+  '2-3 LINERS':'Layer look','SINGLE LINE':'Elegant line','MONO CHROME':'Statement','COCKTAIL':'Party wear',
+  'BAND':'Classic band','STUDS':'Everyday','BALI - HOOPS':'Bohemian','CHANDBALI':'Traditional',
+  'MULTI LINERS':'Layered','COUTURE':'High fashion','OPEN RING':'Adjustable','EVERY DAY':'Daily wear',
+};
+document.getElementById('pitch-table').innerHTML = top20.map(([name,c])=>{
+  const t1=c.colls[0]||['—',0];const t2=c.colls[1]||['—',0];
+  const ti=c.items[0]||['—',0];
+  const diaStyle = c.dia_ratio>=4?'💎':c.dia_ratio>=3?'💫':c.dia_ratio>=2?'⚡':'🌿';
+  const shortName = name.length>30?name.slice(0,28)+'…':name;
+  return `<tr>
+    <td style="font-weight:600;font-size:11px" title="${name}">${shortName}</td>
+    <td><span class="badge ${c.rep==='HRK'?'bhr':'bsh'}">${c.rep}</span></td>
+    <td><span style="color:${collColor(t1[0])};font-weight:700">${t1[0]}</span><br><span style="color:#665588;font-size:9px">${t1[1]}%</span></td>
+    <td><span style="color:${collColor(t2[0])};font-size:11px">${t2[0]}</span><br><span style="color:#665588;font-size:9px">${t2[1]}%</span></td>
+    <td style="color:#c9a96e;font-size:11px">${ti[0]}<br><span style="color:#665588;font-size:9px">${ti[1]}%</span></td>
+    <td style="font-weight:700;font-size:12px;text-align:center" title="${diaStyle}">${c.dia_ratio}x ${diaStyle}</td>
+    <td style="color:#c9a96e;font-size:11px">${fmtAvg(c.avg)}</td>
+  </tr>`;
+}).join('');
+
+// ===== TRENDS =====
+const y2024 = {4:2.57,5:2.57,6:1.07,7:2.73,8:3.57,9:5.02,10:6.10,11:2.77,12:3.37};
+const y2025 = {1:5.73,2:5.51,3:5.14,4:5.22,5:1.91,6:1.87,7:2.14,8:9.65,9:12.57,10:5.37,11:4.20,12:5.12};
+const y2026 = {1:8.53,2:4.60,3:7.03};
+
+function renderMonthBars(data, bid, lid){
+  const ms=Object.keys(data).map(Number).sort((a,b)=>a-b);
+  const vs=ms.map(m=>data[m]);const maxV=Math.max(...vs);
+  document.getElementById(bid).innerHTML=ms.map((m,i)=>{const h=Math.max(4,vs[i]/maxV*76).toFixed(0);const c=vs[i]>=10?'#f5c842':vs[i]>=5?'#c9a96e':'#3a2a60';return`<div class="mb-col"><div class="mb-bar" style="height:${h}px;background:${c};width:100%"></div></div>`;}).join('');
+  document.getElementById(lid).innerHTML=ms.map(m=>`<div style="flex:1;text-align:center;font-size:8px;color:#665588">${MN[m]}</div>`).join('');
+}
+renderMonthBars(y2024,'bars2024','lbl2024');
+renderMonthBars(y2025,'bars2025','lbl2025');
+
+const insights={1:'Wedding + New Year',2:'Valentine + Spring',3:'Financial YE + Holi',4:'Akha Teej',5:'Pre-summer buying',6:'Monsoon lull',7:'Build pipeline',8:'Onam + Rakhi 🔥',9:'FESTIVE PEAK 🔥🔥',10:'Diwali 🔥🔥',11:'Post-Diwali restock',12:'Year-end + Weddings'};
+const seasons={1:'High',2:'High',3:'High',4:'Med',5:'Low',6:'Low',7:'Low',8:'Peak',9:'Peak',10:'Peak',11:'High',12:'High'};
+const sColor={Peak:'#f5c842',High:'#c9a96e',Med:'#9daab8',Low:'#665588'};
+let yoyHTML='';
+for(let m=1;m<=12;m++){
+  const v24=y2024[m],v25=y2025[m],v26=y2026[m];
+  const g=v24&&v25?(((v25-v24)/v24)*100).toFixed(0):null;
+  const gc=g?parseFloat(g)>0?'#4dba77':'#e06060':'#665588';
+  yoyHTML+=`<tr>
+    <td style="color:#c9a96e;font-weight:700">${MN[m]}</td>
+    <td>${v24?`₹${v24}Cr`:'—'}</td>
+    <td style="font-weight:600">${v25?`₹${v25}Cr`:'—'}</td>
+    <td>${v26?`₹${v26}Cr`:'—'}</td>
+    <td style="color:${gc};font-weight:700">${g?(parseFloat(g)>0?'+':'')+g+'%':'—'}</td>
+    <td><span style="color:${sColor[seasons[m]]}">${seasons[m]}</span></td>
+    <td style="font-size:10px;color:#665588">${insights[m]||''}</td>
+  </tr>`;
+}
+document.getElementById('yoy-table').innerHTML=yoyHTML;
+
+const growthClients = [
+  {n:'ANMOL JEWELLERS',         rep:'HRK',        v24:9.98,   v25:83.59,  g:'+738%'},
+  {n:'Gems And Jewels Palace',  rep:'Shailendra',  v24:95.32,  v25:404.39, g:'+324%'},
+  {n:'D.P.ABHUSHAN (RATLAM)',   rep:'HRK',        v24:77.14,  v25:310.49, g:'+303%'},
+  {n:'Harsahaimal Shiamlal Lko',rep:'HRK',        v24:34.89,  v25:135.21, g:'+288%'},
+  {n:'SHRI KRISHNA (B-HILL)',   rep:'HRK',        v24:242.86, v25:553.64, g:'+128%'},
+  {n:'Harsahaimal Shaimal',     rep:'HRK',        v24:67.53,  v25:134.12, g:'+99%'},
+  {n:'CH Jewellers Pvt Ltd.',   rep:'HRK',        v24:134.00, v25:221.91, g:'+66%'},
+  {n:'RATHOD JEWELLERS',        rep:'HRK',        v24:220.01, v25:334.99, g:'+52%'},
+  {n:'HAZOORILAL & SONS',       rep:'HRK',        v24:348.84, v25:476.05, g:'+37%'},
+]
+document.getElementById('growth-table').innerHTML=growthClients.map(d=>`<tr>
+  <td style="font-weight:600">${d.n}</td>
+  <td><span class="badge ${d.rep==='HRK'?'bhr':'bsh'}">${d.rep}</span></td>
+  <td style="color:#9daab8">₹${d.v24}L</td>
+  <td style="color:#c9a96e;font-weight:600">₹${d.v25}L</td>
+  <td style="color:#4dba77;font-weight:700">${d.g}</td>
+</tr>`).join('');
+
+const dormantClientsData = [
+  {n:'AKM Mehra Sons NDSE',            rep:'HRK',        last:'Sep 2024', silent:18, v24:141.51, v25:0,      v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'P.C.CHANDRA GH NEW',             rep:'HRK',        last:'Jan 2025', silent:14, v24:83.77,  v25:2.09,   v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'K.D. GEMS',                       rep:'Shailendra', last:'Sep 2024', silent:18, v24:35.82,  v25:0,      v26:0,     coll:'MOONLIGHT',  u:'🔴 CRITICAL'},
+  {n:'Moti Sons Jewellers Ltd',         rep:'HRK',        last:'Nov 2024', silent:16, v24:34.91,  v25:0,      v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'TEJASWI JEWELLERS',               rep:'Shailendra', last:'Apr 2025', silent:11, v24:0,      v25:33.74,  v26:0,     coll:'CASCADE',    u:'🟠 HIGH'},
+  {n:'JAIPUR GEMS-MUMBAI',              rep:'HRK',        last:'Sep 2024', silent:18, v24:23.38,  v25:0,      v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'AJB FINE JEWELS',                 rep:'Shailendra', last:'Mar 2025', silent:12, v24:15.96,  v25:25.17,  v26:0,     coll:'CASCADE',    u:'🟠 HIGH'},
+  {n:'LALA JUGAL KISHORE',              rep:'Shailendra', last:'Oct 2024', silent:17, v24:22.88,  v25:0,      v26:0,     coll:'EVERGREENS', u:'🔴 CRITICAL'},
+  {n:'INAARA JEWELS',                   rep:'Shailendra', last:'Jun 2025', silent:9,  v24:0,      v25:26.00,  v26:0,     coll:'CASCADE',    u:'🟡 MED'},
+  {n:'AARUSH GEMS PVT LTD',             rep:'Shailendra', last:'Feb 2025', silent:13, v24:4.39,   v25:14.35,  v26:0,     coll:'EVERGREENS', u:'🟠 HIGH'},
+  {n:'R B GEMS & JEWELS',               rep:'Shailendra', last:'Aug 2025', silent:7,  v24:0,      v25:33.86,  v26:0,     coll:'EVERGREENS', u:'🟡 MED'},
+  {n:'PYARELAL JAGGANNATH SARAF-DELHI', rep:'HRK',        last:'Aug 2024', silent:19, v24:18.81,  v25:0,      v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'TALWAR JEWELLERY HOUSE',          rep:'Shailendra', last:'Jun 2024', silent:21, v24:14.15,  v25:0,      v26:0,     coll:'EVERGREENS', u:'🔴 CRITICAL'},
+  {n:'MANAAL',                          rep:'Shailendra', last:'Jun 2025', silent:9,  v24:0,      v25:14.56,  v26:0,     coll:'EVERGREENS', u:'🟡 MED'},
+  {n:'KASHI JEWELLERS',                 rep:'Shailendra', last:'Jan 2025', silent:14, v24:20.81,  v25:10.40,  v26:0,     coll:'CASCADE',    u:'🟠 HIGH'},
+  {n:'STARFIRE GEMS',                   rep:'HRK',        last:'Dec 2024', silent:15, v24:10.90,  v25:0,      v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'GEM ARTS EMPORIUM',               rep:'Shailendra', last:'Sep 2025', silent:6,  v24:58.87,  v25:56.72,  v26:0,     coll:'CASCADE',    u:'👀 WATCH'},
+  {n:'PANNA HANDICRAFTS',               rep:'Shailendra', last:'Dec 2025', silent:3,  v24:27.40,  v25:76.74,  v26:0,     coll:'CASCADE',    u:'👀 WATCH'},
+  {n:'J.P.KOTHARI',                     rep:'HRK',        last:'Sep 2024', silent:18, v24:8.39,   v25:0,      v26:0,     coll:'CASCADE',    u:'🔴 CRITICAL'},
+  {n:'MALIK JEWELLERS',                 rep:'Shailendra', last:'Oct 2025', silent:5,  v24:23.77,  v25:1.45,   v26:0,     coll:'CASCADE',    u:'🟠 HIGH'},
+  {n:'RADHEY LAL & SONS',               rep:'Shailendra', last:'Mar 2025', silent:12, v24:18.70,  v25:5.47,   v26:0,     coll:'CASCADE',    u:'🟠 HIGH'},
+  {n:'Dutta Heritage Pvt Ltd',          rep:'Shailendra', last:'Sep 2025', silent:6,  v24:15.67,  v25:5.45,   v26:0,     coll:'MOONLIGHT',  u:'🟡 MED'},
+  {n:'K D DIAMOND',                     rep:'Shailendra', last:'Jul 2024', silent:20, v24:5.39,   v25:0,      v26:0,     coll:'EVERGREENS', u:'🔴 CRITICAL'},
+  {n:'Birdhi Chand GD Jewellers',       rep:'HRK',        last:'Sep 2025', silent:6,  v24:48.28,  v25:21.59,  v26:0,     coll:'MOONLIGHT',  u:'🟡 MED'},
+]
+document.getElementById('decline-table').innerHTML=dormantClientsData.slice(0,10).map(d=>`<tr>
+  <td style="font-weight:600;font-size:11px">${d.n}</td>
+  <td><span class="badge ${d.rep==='HRK'?'bhr':'bsh'}">${d.rep}</span></td>
+  <td style="color:#9daab8">${d.v24>0?'₹'+d.v24+'L':'—'}</td>
+  <td style="color:#c9a96e">${d.v25>0?'₹'+d.v25+'L':'—'}</td>
+  <td>${d.u}</td>
+</tr>`).join('');
+document.getElementById('dormant-table').innerHTML=dormantClientsData.map(d=>`<tr>
+  <td style="font-weight:600;font-size:11px">${d.n}</td>
+  <td><span class="badge ${d.rep==='HRK'?'bhr':'bsh'}">${d.rep}</span></td>
+  <td style="color:#9daab8;font-size:11px">${d.v24>0?'₹'+d.v24+'L':'—'}</td>
+  <td style="color:#c9a96e;font-size:11px">${d.v25>0?'₹'+d.v25+'L':'—'}</td>
+  <td style="color:#f5c842;font-size:11px">${d.v26>0?'₹'+d.v26+'L':'—'}</td>
+  <td style="color:#8877bb;font-size:11px">${d.last}</td>
+  <td style="color:${d.silent>=18?'#e06060':d.silent>=12?'#f5a06b':d.silent>=9?'#e0c040':d.silent>=6?'#c9a96e':'#9daab8'};font-weight:700;text-align:center">${d.silent}mo</td>
+  <td>${d.u}</td>
+  <td style="font-size:10px;color:#665588;color:${collColor(d.coll)}">${d.coll}</td>
+</tr>`).join('');
+
+function showTab(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+  el.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  if(window.innerWidth<=768) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showTabMob(id, el){
+  // Update sections
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // Update top tabs
+  const topTabMap={'tab-hrk':0,'tab-shai':1,'tab-touch':2,'tab-heatmap':3,'tab-collections':4,'tab-trends':5,'tab-dormant':6};
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  const topTabs=document.querySelectorAll('.tab');
+  if(topTabs[topTabMap[id]]) topTabs[topTabMap[id]].classList.add('active');
+  // Update bottom nav
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function adaptTabs(){
+  const sm=window.innerWidth<=480;
+  const labels={
+    '🔵 HRK':sm?'🔵 HRK':'🔵 HRK Clients (39)',
+    '🟢 Shai':sm?'🟢 Shai':'🟢 Shailendra (53)',
+    '📅 Touch':sm?'📅':'📅 Touch Plan',
+    '🔥 Map':sm?'🔥':'🔥 Heatmap',
+    '💍 Coll':sm?'💍':'💍 Collections',
+    '📈 Trend':sm?'📈':'📈 Trends',
+    '⚠️ Risk':sm?'⚠️':'⚠️ Dormant'
+  };
+  document.querySelectorAll('.tab[data-short]').forEach(t=>{
+    const key=t.getAttribute('data-short');
+    if(labels[key]) t.textContent=labels[key];
+  });
+}
+adaptTabs();
+window.addEventListener('resize',adaptTabs);
+</script>
+</body>
+</html>
